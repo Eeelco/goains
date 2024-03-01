@@ -4,6 +4,7 @@
 
   let i = 0;
   let max = 1;
+  $: progress = ((i / max) * 100).toFixed(1);
 
   EventsOn("download_db_progress", (progress) => {
     i = progress[0];
@@ -14,5 +15,5 @@
   });
 </script>
 
-<label for="files">Downloading files...</label>
-<progress id="files" value={i} {max}></progress>
+<h2>Downloading files...</h2>
+<progress id="files" value={i} {max}></progress>{progress}%

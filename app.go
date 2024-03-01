@@ -23,6 +23,15 @@ func NewApp() *App {
 // so we can call the runtime methods
 func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
+	// Set window to fullscreen on mobile
+	screens, _ := runtime.ScreenGetAll(ctx)
+	for _, s := range screens {
+		if s.IsCurrent {
+			if s.Size.Width < 1024 {
+				runtime.WindowFullscreen(ctx)
+			}
+		}
+	}
 	initializeConfigVariables()
 	if !CheckConfigFolder() {
 		a.DownloadDatabase()
@@ -40,7 +49,7 @@ func CheckConfigFolder() bool {
 
 // Conditionally download exercise database
 func (a *App) DownloadDatabase() {
-	askDownloadOptions := runtime.MessageDialogOptions{Type: runtime.QuestionDialog, Title: "Download Database?", Message: "No exercise database found. Would you like to download it now *Approx. 100 MB)?"}
+	askDownloadOptions := runtime.MessageDialogOptions{Type: runtime.QuestionDialog, Title: "Download Database?", Message: "No exercise database found. Would you like to download it now (approx. 100 MB)?"}
 	response, err := runtime.MessageDialog(a.ctx, askDownloadOptions)
 
 	if err != nil || response != "Yes" {
