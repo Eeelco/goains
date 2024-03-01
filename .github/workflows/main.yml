@@ -1,0 +1,43 @@
+name: Wails build
+
+on:
+  push:
+    tags:
+      # Match any new tag
+      - "*"
+
+env:
+  # Necessary for most environments as build failure can occur due to OOM issues
+  NODE_OPTIONS: "--max-old-space-size=4096"
+
+jobs:
+  build:
+    strategy:
+      # Failure in one platform build won't impact the others
+      fail-fast: false
+      matrix:
+        name: ["App"]
+        platform: ["linux/amd64", "linux/arm64"]
+        os: ["ubuntu-latest"]
+
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.1
+        with:
+          submodules: recursive
+
+      - name: Set node version
+        uses: actions/setup-node@v4
+        with:
+          node-version: "latest"
+
+      - name: Build wails
+        uses: dAppServer/wails-build-action@v2.2
+        id: build
+        with:
+          build-name: ${{ matrix.name }}
+          build-platform: ${{ matrix.platform }}
+          package: false
+          go-version: "1.21"
+          node-version: "latest"
