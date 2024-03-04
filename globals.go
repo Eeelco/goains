@@ -11,3 +11,5 @@ const exercises_json string = "https://raw.githubusercontent.com/yuhonas/free-ex
 const image_url_prefix string = "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/"
 
 var exerciseDatabase []Exercise
+
+var config Config

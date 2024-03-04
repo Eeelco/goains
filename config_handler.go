@@ -24,10 +24,24 @@ func createConfigFolder() {
 	os.Mkdir(CONFIG_DIR, 0755)
 	var default_cfg = DefaultCfg()
 
+	config = default_cfg
+
 	f, _ := os.Create(CONFIG_FILE)
 	defer f.Close()
 	cfg_json, _ := json.MarshalIndent(default_cfg, "", "  ")
 	f.Write(cfg_json)
+}
+
+func LoadConfigAndDB() {
+	f, _ := os.Open(CONFIG_FILE)
+	defer f.Close()
+	dec := json.NewDecoder(f)
+	_ = dec.Decode(&config)
+
+	ex, _ := os.Open(DB_FILE)
+	defer ex.Close()
+	dec = json.NewDecoder(ex)
+	_ = dec.Decode(&exerciseDatabase)
 }
 
 func DownloadFile(url string, filepath string) error {

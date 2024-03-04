@@ -34,6 +34,8 @@ func (a *App) startup(ctx context.Context) {
 	initializeConfigVariables()
 	if !CheckConfigFolder() {
 		a.DownloadDatabase()
+	} else {
+		LoadConfigAndDB()
 	}
 }
 
