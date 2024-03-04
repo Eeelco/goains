@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"os"
 
 	"github.com/wailsapp/wails/v2/pkg/runtime"
@@ -56,9 +55,9 @@ func (a *App) DownloadDatabase() {
 		return
 	}
 	runtime.EventsEmit(a.ctx, "download_db")
-	DownloadFile(exercises_json, CONFIG_FILE)
+	DownloadFile(exercises_json, DB_FILE)
 
-	exercises, _ := os.Open(CONFIG_FILE)
+	exercises, _ := os.Open(DB_FILE)
 	defer exercises.Close()
 
 	dec := json.NewDecoder(exercises)
@@ -76,8 +75,4 @@ func (a *App) DownloadDatabase() {
 	}
 	runtime.EventsEmit(a.ctx, "download_db_done")
 
-}
-
-func (a *App) Greet(name string) string {
-	return fmt.Sprintf("Hello %s!", name)
 }

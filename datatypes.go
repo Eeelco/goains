@@ -36,6 +36,19 @@ type Plan struct {
 }
 
 type Config struct {
-	CurrentPlan    string
-	PreviousDayIdx int
+	CurrentPlan   string
+	NextDayIdx    int
+	DefaultNrSets int
+	DefaultNrReps int
+	DefaultPause  int
+}
+
+func DefaultCfg() Config {
+	return Config{
+		CurrentPlan:   "",
+		NextDayIdx:    0,
+		DefaultNrSets: 3,
+		DefaultNrReps: 10,
+		DefaultPause:  60,
+	}
 }

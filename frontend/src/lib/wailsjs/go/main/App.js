@@ -5,7 +5,3 @@
 export function DownloadDatabase() {
   return window['go']['main']['App']['DownloadDatabase']();
 }
-
-export function Greet(arg1) {
-  return window['go']['main']['App']['Greet'](arg1);
-}
