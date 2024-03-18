@@ -5,3 +5,7 @@
 export function DownloadDatabase() {
   return window['go']['main']['App']['DownloadDatabase']();
 }
+
+export function HasPlan() {
+  return window['go']['main']['App']['HasPlan']();
+}

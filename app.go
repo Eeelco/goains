@@ -78,3 +78,7 @@ func (a *App) DownloadDatabase() {
 	runtime.EventsEmit(a.ctx, "download_db_done")
 
 }
+
+func (a *App) HasPlan() bool {
+	return config.CurrentPlan != ""
+}
