@@ -1,25 +1,26 @@
 <script>
+  import ExercisesList from "./ExercisesList.svelte";
   let plan_name = "";
   let filter_name = "";
   let nr_days = 3;
   let exercise_lists = new Array(nr_days).fill([]);
   let day_names = Array.from({ length: nr_days }, (_, i) => `Day ${i + 1}`);
+  let modalOpen;
 
   function renameDay(i) {
     day_names[i] = prompt("New name", day_names[i]);
   }
 
   function addExercise(i) {
-    const exercise = prompt("Exercise name");
-    if (exercise) {
-      exercise_lists[i] = [...exercise_lists[i], exercise];
-    }
+    modalOpen = true;
   }
 
   function removeExercise(i, exercise) {
     exercise_lists[i] = exercise_lists[i].filter((e) => e !== exercise);
   }
 </script>
+
+<ExercisesList bind:modalOpen />
 
 <h1>Create plan</h1>
 <input type="text" bind:value={plan_name} placeholder="Plan name" />
