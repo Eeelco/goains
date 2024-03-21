@@ -2,7 +2,8 @@ package main
 
 import (
 	"context"
-	"strings"
+
+	"github.com/lithammer/fuzzysearch/fuzzy"
 
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
@@ -52,7 +53,7 @@ func (a *App) GetExercises(filter string) []Exercise {
 	}
 	out := []Exercise{}
 	for _, ex := range exerciseDatabase {
-		if strings.Contains(strings.ToLower(ex.Name), strings.ToLower(filter)) {
+		if fuzzy.MatchFold(filter, ex.Name) {
 			out = append(out, ex)
 		}
 	}

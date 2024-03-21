@@ -4,10 +4,6 @@
   import { EventsOn } from "../lib/wailsjs/runtime";
   import { HasPlan } from "../lib/wailsjs/go/main/App";
 
-  EventsOn("download_db", () => {
-    goto("/init_db");
-  });
-
   let has_plan;
   onMount(() => {
     HasPlan().then((res) => {

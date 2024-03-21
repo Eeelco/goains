@@ -20,7 +20,7 @@
     <input
       type="text"
       bind:value={search_string}
-      on:keypress={() => {
+      on:keyup={() => {
         GetExercises(search_string).then((res) => {
           exercise_list = res;
         });
@@ -29,9 +29,12 @@
     />
     <div class="overflow-auto">
       {#each exercise_list as ex}
-        <div role="group">
-          <img src="img/{ex.Images[0]}" width="100px" height="100px" />
-        </div>
+        <article>
+          <div class="grid">
+            <div><h3>{ex.Name}</h3></div>
+            <div><button class="secondary">Add</button></div>
+          </div>
+        </article>
       {/each}
     </div>
   </article>
