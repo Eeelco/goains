@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"os"
+	"strings"
 
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
@@ -32,11 +33,9 @@ func (a *App) startup(ctx context.Context) {
 		}
 	}
 	initializeConfigVariables()
-	if !CheckConfigFolder() {
-		a.DownloadDatabase()
-	} else {
-		LoadConfigAndDB()
-	}
+	CheckConfigFolder()
+	LoadConfigAndDB()
+
 }
 
 // Check if the config folder exists, if not, create it
@@ -81,4 +80,21 @@ func (a *App) DownloadDatabase() {
 
 func (a *App) HasPlan() bool {
 	return config.CurrentPlan != ""
+}
+
+func (a *App) GetImgPrefix() string {
+	return CONFIG_DIR + "/img/"
+}
+
+func (a *App) GetExercises(filter string) []Exercise {
+	if filter == "" {
+		return exerciseDatabase
+	}
+	out := []Exercise{}
+	for _, ex := range exerciseDatabase {
+		if strings.Contains(strings.ToLower(ex.Name), strings.ToLower(filter)) {
+			out = append(out, ex)
+		}
+	}
+	return out
 }

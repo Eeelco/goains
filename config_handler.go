@@ -12,7 +12,7 @@ func initializeConfigVariables() {
 	HOME_DIR, _ := os.UserHomeDir()
 	CONFIG_DIR = filepath.Join(HOME_DIR, ".config/"+APP_NAME)
 	CONFIG_FILE = filepath.Join(CONFIG_DIR, "config.json")
-	DB_FILE = filepath.Join(CONFIG_DIR, "exercises.json")
+	DB_FILE = filepath.Join("exercises.json")
 }
 
 func configFolderExists() bool {

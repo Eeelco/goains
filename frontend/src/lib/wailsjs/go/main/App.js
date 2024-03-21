@@ -6,6 +6,14 @@ export function DownloadDatabase() {
   return window['go']['main']['App']['DownloadDatabase']();
 }
 
+export function GetExercises(arg1) {
+  return window['go']['main']['App']['GetExercises'](arg1);
+}
+
+export function GetImgPrefix() {
+  return window['go']['main']['App']['GetImgPrefix']();
+}
+
 export function HasPlan() {
   return window['go']['main']['App']['HasPlan']();
 }
