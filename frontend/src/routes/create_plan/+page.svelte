@@ -11,7 +11,13 @@
   let current_day = 0;
 
   function renameDay(i) {
+    if ("virtualKeyboard" in window) {
+      navigator.virtualKeyboard.show();
+    }
     res = prompt("New name", day_names[i]);
+    if ("virtualKeyboard" in window) {
+      navigator.virtualKeyboard.hide();
+    }
     if (res) {
       day_names[i] = res;
     }
