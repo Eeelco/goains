@@ -20,6 +20,7 @@ func configFolderExists() bool {
 
 func createConfigFolder() {
 	os.Mkdir(CONFIG_DIR, 0755)
+	os.Mkdir(CONFIG_DIR+"/plans", 0755)
 	var default_cfg = DefaultCfg()
 
 	config = default_cfg

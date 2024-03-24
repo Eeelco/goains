@@ -2,6 +2,8 @@ package main
 
 import (
 	"context"
+	"encoding/json"
+	"os"
 
 	"github.com/lithammer/fuzzysearch/fuzzy"
 
@@ -58,4 +60,27 @@ func (a *App) GetExercises(filter string) []Exercise {
 		}
 	}
 	return out
+}
+
+func (a *App) GetConfig() Config {
+	return config
+}
+
+func (a *App) SavePlan(plan Plan) {
+	f, err := os.Create(CONFIG_DIR + "/plans/" + plan.Name + ".json")
+	if err != nil {
+		i := 0
+		new_file := CONFIG_DIR + "/plans/" + plan.Name + "_" + string(i) + ".json"
+		for {
+			if _, err := os.Stat(new_file); os.IsNotExist(err) {
+				f, _ = os.Create(new_file)
+				break
+			}
+			i++
+			new_file = CONFIG_DIR + "/plans/" + plan.Name + "_" + string(i) + ".json"
+		}
+	}
+	defer f.Close()
+	plan_json, _ := json.MarshalIndent(plan, "", "  ")
+	f.Write(plan_json)
 }

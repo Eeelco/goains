@@ -15,13 +15,15 @@ type Exercise struct {
 }
 
 type Set struct {
-	Repetitions      int
-	SecondsRestAfter int
+	Repetitions int
+	Weight      int
 }
 
 type ExerciseUnit struct {
-	ExerciseId string
-	Sets       []Set
+	ExerciseId   string
+	ExerciseName string
+	Rest         int
+	Sets         []Set
 }
 
 type PlanDay struct {
@@ -30,9 +32,8 @@ type PlanDay struct {
 }
 
 type Plan struct {
-	Name     string
-	Days     []PlanDay
-	DayOrder []int
+	Name string
+	Days []PlanDay
 }
 
 type Config struct {
@@ -40,7 +41,7 @@ type Config struct {
 	NextDayIdx    int
 	DefaultNrSets int
 	DefaultNrReps int
-	DefaultPause  int
+	DefaultRest   int
 }
 
 func DefaultCfg() Config {
@@ -49,6 +50,6 @@ func DefaultCfg() Config {
 		NextDayIdx:    0,
 		DefaultNrSets: 3,
 		DefaultNrReps: 10,
-		DefaultPause:  60,
+		DefaultRest:   60,
 	}
 }
