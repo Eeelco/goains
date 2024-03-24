@@ -6,8 +6,6 @@ import (
 	"os"
 
 	"github.com/lithammer/fuzzysearch/fuzzy"
-
-	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
 // App struct
@@ -25,14 +23,14 @@ func NewApp() *App {
 func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
 	// Set window to fullscreen on mobile
-	screens, _ := runtime.ScreenGetAll(ctx)
-	for _, s := range screens {
-		if s.IsCurrent {
-			if s.Size.Width < 1024 {
-				runtime.WindowFullscreen(ctx)
-			}
-		}
-	}
+	// screens, _ := runtime.ScreenGetAll(ctx)
+	// for _, s := range screens {
+	// 	if s.IsCurrent {
+	// 		if s.Size.Width < 1024 {
+	// 			runtime.WindowFullscreen(ctx)
+	// 		}
+	// 	}
+	// }
 	initializeConfigVariables()
 	if !configFolderExists() {
 		createConfigFolder()
