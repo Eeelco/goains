@@ -1,4 +1,5 @@
 <script>
+  import { goto } from "$app/navigation";
   import ExercisesList from "./ExercisesList.svelte";
   import { GetExercises, SavePlan } from "../../lib/wailsjs/go/main/App";
   let plan_name = "";
@@ -50,6 +51,13 @@
 <div role="group">
   <h1>New Plan</h1>
   <button on:click={savePlan}> Save plan </button>
+  <button
+    class="secondary"
+    on:click={() => {
+      goto("/");
+    }}
+    >Cancel
+  </button>
 </div>
 <input type="text" bind:value={plan_name} placeholder="Plan name" />
 <button
@@ -70,28 +78,56 @@
         <div>
           <hr />
           <h3>Exercises</h3>
-          {#each exercise_lists[i] as exercise}
+          {#each exercise_lists[i] as exercise, ex_idx}
             <details>
               <summary>{exercise.ExerciseName}</summary>
               <label>Rest</label>
               <input type="number" bind:value={exercise.Rest} min="1" />
-              {#each Array(exercise.Sets) as _, j}
-                <label>Set {j + 1} Reps</label>
-                <input
-                  type="number"
-                  bind:value={exercise.Sets[j].Repetitions}
-                  min="1"
-                />
-                <label>Set {j + 1} Weight</label>
-                <input
-                  type="number"
-                  bind:value={exercise.Sets[j].Weight}
-                  min="0"
-                  step="0.1"
-                />
+              {#each exercise.Sets as _, j}
+                <div role="group">
+                  <label
+                    >Reps:
+                    <input
+                      type="number"
+                      bind:value={exercise.Sets[j].Repetitions}
+                      min="1"
+                    /></label
+                  >
+                  <label
+                    >Weight:
+                    <input
+                      type="number"
+                      bind:value={exercise.Sets[j].Weight}
+                      min="0"
+                      step="0.1"
+                    /></label
+                  >
+                  <a
+                    on:click={() => {
+                      exercise.Sets = exercise.Sets.filter(
+                        (_, idx) => idx !== j
+                      );
+                      exercise_lists[i] = [...exercise_lists[i]];
+                      if (exercise.Sets.length === 0) {
+                        removeExercise(i, exercise);
+                      }
+                    }}>Remove</a
+                  >
+                </div>
               {/each}
-              <button on:click={() => removeExercise(i, exercise)}
-                >Remove</button
+              <button
+                on:click={() => {
+                  exercise_lists[i][ex_idx].Sets.push({
+                    Repetitions: 0,
+                    Weight: 0,
+                  });
+                  exercise_lists[i] = [...exercise_lists[i]];
+                }}>Add set</button
+              >
+              <button
+                class="secondary"
+                on:click={() => removeExercise(i, exercise)}
+                >Remove Exercise</button
               >
             </details>
           {/each}
