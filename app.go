@@ -70,14 +70,14 @@ func (a *App) SavePlan(plan Plan) {
 	f, err := os.Create(CONFIG_DIR + "/plans/" + plan.Name + ".json")
 	if err != nil {
 		i := 0
-		new_file := CONFIG_DIR + "/plans/" + plan.Name + "_" + string(i) + ".json"
+		new_file := CONFIG_DIR + "/plans/" + plan.Name + "_" + string(rune(i)) + ".json"
 		for {
 			if _, err := os.Stat(new_file); os.IsNotExist(err) {
 				f, _ = os.Create(new_file)
 				break
 			}
 			i++
-			new_file = CONFIG_DIR + "/plans/" + plan.Name + "_" + string(i) + ".json"
+			new_file = CONFIG_DIR + "/plans/" + plan.Name + "_" + string(rune(i)) + ".json"
 		}
 	}
 	defer f.Close()

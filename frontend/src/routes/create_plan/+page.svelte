@@ -33,7 +33,9 @@
         ExerciseUnits: exercises,
       })),
     };
-    SavePlan(plan);
+    SavePlan(plan).then(() => {
+      alert("Plan saved successfully");
+    });
   }
 
   document.addEventListener("keydown", (event) => {
