@@ -30,7 +30,7 @@
     <input
       type="text"
       bind:value={search_string}
-      on:keydown={() => {
+      on:input={() => {
         GetExercises(search_string).then((res) => {
           exercise_list = res;
         });

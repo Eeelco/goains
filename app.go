@@ -22,15 +22,7 @@ func NewApp() *App {
 // so we can call the runtime methods
 func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
-	// Set window to fullscreen on mobile
-	// screens, _ := runtime.ScreenGetAll(ctx)
-	// for _, s := range screens {
-	// 	if s.IsCurrent {
-	// 		if s.Size.Width < 1024 {
-	// 			runtime.WindowFullscreen(ctx)
-	// 		}
-	// 	}
-	// }
+
 	initializeConfigVariables()
 	if !configFolderExists() {
 		createConfigFolder()
@@ -57,7 +49,12 @@ func (a *App) GetExercises(filter string) []Exercise {
 			out = append(out, ex)
 		}
 	}
-	return out
+
+	if MAX_NR_EXERCISES < len(out) {
+		return out[:MAX_NR_EXERCISES]
+	} else {
+		return out
+	}
 }
 
 func (a *App) GetConfig() Config {
