@@ -57,6 +57,21 @@ func (a *App) GetExercises(filter string) []Exercise {
 	}
 }
 
+func (a *App) GetAllPlans() []Plan {
+	files, _ := os.ReadDir(CONFIG_DIR + "/plans")
+	plans := []Plan{}
+	for _, file := range files {
+		if file.IsDir() {
+			continue
+		}
+		f, _ := os.Open(CONFIG_DIR + "/plans/" + file.Name())
+		plan := Plan{}
+		json.NewDecoder(f).Decode(&plan)
+		plans = append(plans, plan)
+	}
+	return plans
+}
+
 func (a *App) GetConfig() Config {
 	return config
 }

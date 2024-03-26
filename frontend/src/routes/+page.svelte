@@ -4,6 +4,9 @@
   import { EventsOn } from "../lib/wailsjs/runtime";
   import { HasPlan } from "../lib/wailsjs/go/main/App";
 
+  import PlanList from "./PlanList.svelte";
+
+  let modalOpen = false;
   let has_plan;
   onMount(() => {
     HasPlan().then((res) => {
@@ -12,12 +15,35 @@
   });
 </script>
 
-<h1>Main</h1>
+<PlanList bind:modalOpen />
+<div class="center">
+  <h1>Goainz</h1>
 
-<button on:click={() => goto("/create_plan")}>Create new workout plan</button>
+  {#if has_plan === true}
+    <button class="breathe" on:click={() => goto("/workout")}
+      >Continue workout</button
+    >
+  {:else}
+    <button class="breathe" on:click={() => (modalOpen = true)}
+      >Start new workout plan</button
+    >
+  {/if}
 
-{#if has_plan === true}
-  <button on:click={() => goto("/workout")}>Continue workout</button>
-{:else}
-  No current workout
-{/if}
+  <button class="breathe" on:click={() => goto("/create_plan")}
+    >Create new workout plan</button
+  >
+</div>
+
+<style>
+  .center {
+    text-align: center;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+  }
+
+  .breathe {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+</style>
