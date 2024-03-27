@@ -32,8 +32,9 @@ type PlanDay struct {
 }
 
 type Plan struct {
-	Name string
-	Days []PlanDay
+	Name        string
+	Description string
+	Days        []PlanDay
 }
 
 type Config struct {

@@ -20,16 +20,19 @@
     </header>
 
     {#if all_plans}
-      {#each all_plans as plan}
-        <button
-          on:click={() => {
-            modalOpen = false;
-            // choosePlan(plan);
-          }}
-        >
-          {plan.Name}
-        </button>
-      {/each}
+      <div class="overflow-auto">
+        {#each all_plans as plan}
+          <details>
+            <summary>{plan.Name}</summary>
+            <p>{plan.Description}</p>
+            <button
+              on:click={() => {
+                modalOpen = false;
+              }}>Select</button
+            >
+          </details>
+        {/each}
+      </div>
     {:else}
       <p>No plans found</p>
     {/if}

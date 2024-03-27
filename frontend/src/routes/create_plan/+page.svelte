@@ -3,6 +3,7 @@
   import ExercisesList from "./ExercisesList.svelte";
   import { GetExercises, SavePlan } from "../../lib/wailsjs/go/main/App";
   let plan_name = "";
+  let plan_description = "";
   let filter_name = "";
   let nr_days = 3;
   let exercise_lists = [...new Array(nr_days)].map(() => []);
@@ -11,10 +12,13 @@
   let current_day = 0;
 
   function renameDay(i) {
-    res = prompt("New name", day_names[i]);
-    if (res) {
-      day_names[i] = res;
-    }
+    day_names[i] = prompt("New name", day_names[i]) || day_names[i];
+  }
+
+  function removeDay(i) {
+    exercise_lists = exercise_lists.filter((_, idx) => idx !== i);
+    day_names = day_names.filter((_, idx) => idx !== i);
+    nr_days -= 1;
   }
 
   function addExercise(i) {
@@ -29,6 +33,7 @@
   function savePlan() {
     const plan = {
       Name: plan_name ? plan_name : "New plan",
+      Description: plan_description,
       Days: exercise_lists.map((exercises, i) => ({
         Name: day_names[i],
         ExerciseUnits: exercises,
@@ -36,6 +41,7 @@
     };
     SavePlan(plan).then(() => {
       alert("Plan saved successfully");
+      goto("/");
     });
   }
 
@@ -60,6 +66,11 @@
   </button>
 </div>
 <input type="text" bind:value={plan_name} placeholder="Plan name" />
+<input
+  type="text"
+  bind:value={plan_description}
+  placeholder="Plan description"
+/>
 <button
   on:click={() => {
     nr_days += 1;
@@ -67,13 +78,18 @@
     day_names[nr_days - 1] = `Day ${nr_days}`;
   }}>Add day</button
 >
+
 <hr />
 <div class="grid">
   {#each Array(nr_days) as _, i}
     <div>
       <details role="button" class="outline secondary" open={i == 0 || null}>
         <summary>{day_names[i]}</summary>
-        <button on:click={() => renameDay(i)}>Rename day</button>
+        <div role="group">
+          <button on:click={() => renameDay(i)}>Rename</button>
+          <button class="secondary" on:click={() => removeDay(i)}>Delete</button
+          >
+        </div>
         <button on:click={() => addExercise(i)}>Add exercise</button>
         <div>
           <hr />
