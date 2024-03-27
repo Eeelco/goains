@@ -84,7 +84,9 @@
   {#each Array(nr_days) as _, i}
     <div>
       <details role="button" class="outline secondary" open={i == 0 || null}>
-        <summary>{day_names[i]}</summary>
+        <summary
+          >{day_names[i]}<br />{exercise_lists[i].length} Exercises</summary
+        >
         <div role="group">
           <button on:click={() => renameDay(i)}>Rename</button>
           <button class="secondary" on:click={() => removeDay(i)}>Delete</button
@@ -96,7 +98,9 @@
           <h3>Exercises</h3>
           {#each exercise_lists[i] as exercise, ex_idx}
             <details>
-              <summary>{exercise.ExerciseName}</summary>
+              <summary
+                >{exercise.ExerciseName}<br />{exercise.Sets.length} Sets</summary
+              >
               <label>Rest</label>
               <input type="number" bind:value={exercise.Rest} min="1" />
               {#each exercise.Sets as _, j}

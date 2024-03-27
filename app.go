@@ -4,8 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"os"
-
-	"github.com/lithammer/fuzzysearch/fuzzy"
+	"strings"
 )
 
 // App struct
@@ -45,7 +44,7 @@ func (a *App) GetExercises(filter string) []Exercise {
 	}
 	out := []Exercise{}
 	for _, ex := range exerciseDatabase {
-		if fuzzy.MatchFold(filter, ex.Name) {
+		if strings.Contains(strings.ToLower(ex.Name), strings.ToLower(filter)) {
 			out = append(out, ex)
 		}
 	}
