@@ -1,0 +1,162 @@
+{
+  "Name": "Stronglifts 5x5",
+  "Description": "Simple strength building workout routine",
+  "Days": [
+    {
+      "Name": "Day A",
+      "ExerciseUnits": [
+        {
+          "ExerciseId": "Barbell_Squat",
+          "ExerciseName": "Barbell Squat",
+          "Rest": 180,
+          "Sets": [
+            {
+              "Repetitions": 5,
+              "Weight": 0
+            },
+            {
+              "Repetitions": 5,
+              "Weight": 0
+            },
+            {
+              "Repetitions": 5,
+              "Weight": 0
+            },
+            {
+              "Repetitions": 5,
+              "Weight": 0
+            },
+            {
+              "Repetitions": 5,
+              "Weight": 0
+            }
+          ]
+        },
+        {
+          "ExerciseId": "Barbell_Bench_Press_-_Medium_Grip",
+          "ExerciseName": "Barbell Bench Press - Medium Grip",
+          "Rest": 180,
+          "Sets": [
+            {
+              "Repetitions": 5,
+              "Weight": 0
+            },
+            {
+              "Repetitions": 5,
+              "Weight": 0
+            },
+            {
+              "Repetitions": 5,
+              "Weight": 0
+            },
+            {
+              "Repetitions": 5,
+              "Weight": 0
+            },
+            {
+              "Repetitions": 5,
+              "Weight": 0
+            }
+          ]
+        },
+        {
+          "ExerciseId": "Bent_Over_Barbell_Row",
+          "ExerciseName": "Bent Over Barbell Row",
+          "Rest": 180,
+          "Sets": [
+            {
+              "Repetitions": 5,
+              "Weight": 0
+            },
+            {
+              "Repetitions": 5,
+              "Weight": 0
+            },
+            {
+              "Repetitions": 5,
+              "Weight": 0
+            },
+            {
+              "Repetitions": 5,
+              "Weight": 0
+            },
+            {
+              "Repetitions": 5,
+              "Weight": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Day B",
+      "ExerciseUnits": [
+        {
+          "ExerciseId": "Barbell_Squat",
+          "ExerciseName": "Barbell Squat",
+          "Rest": 180,
+          "Sets": [
+            {
+              "Repetitions": 5,
+              "Weight": 0
+            },
+            {
+              "Repetitions": 5,
+              "Weight": 0
+            },
+            {
+              "Repetitions": 5,
+              "Weight": 0
+            },
+            {
+              "Repetitions": 5,
+              "Weight": 0
+            },
+            {
+              "Repetitions": 5,
+              "Weight": 0
+            }
+          ]
+        },
+        {
+          "ExerciseId": "Barbell_Shoulder_Press",
+          "ExerciseName": "Barbell Shoulder Press",
+          "Rest": 180,
+          "Sets": [
+            {
+              "Repetitions": 5,
+              "Weight": 0
+            },
+            {
+              "Repetitions": 5,
+              "Weight": 0
+            },
+            {
+              "Repetitions": 5,
+              "Weight": 0
+            },
+            {
+              "Repetitions": 5,
+              "Weight": 0
+            },
+            {
+              "Repetitions": 5,
+              "Weight": 0
+            }
+          ]
+        },
+        {
+          "ExerciseId": "Barbell_Deadlift",
+          "ExerciseName": "Barbell Deadlift",
+          "Rest": 180,
+          "Sets": [
+            {
+              "Repetitions": 5,
+              "Weight": 0
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

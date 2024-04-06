@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"log"
 	"os"
 	"path/filepath"
 )
@@ -18,6 +19,21 @@ func configFolderExists() bool {
 	return !os.IsNotExist(err)
 }
 
+func saveDefaultPlans() {
+	plan_dir := CONFIG_DIR + "/plans"
+	plan_files, _ := os.ReadDir("default_plans")
+	for _, plan := range plan_files {
+		filebytes, err := os.ReadFile("default_plans/" + plan.Name())
+		if err != nil {
+			log.Fatal(err)
+		}
+		err = os.WriteFile(plan_dir+"/"+plan.Name(), filebytes, 0644)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+}
+
 func createConfigFolder() {
 	os.Mkdir(CONFIG_DIR, 0755)
 	os.Mkdir(CONFIG_DIR+"/plans", 0755)
@@ -29,6 +45,8 @@ func createConfigFolder() {
 	defer f.Close()
 	cfg_json, _ := json.MarshalIndent(default_cfg, "", "  ")
 	f.Write(cfg_json)
+
+	saveDefaultPlans()
 }
 
 func LoadConfigAndDB() {

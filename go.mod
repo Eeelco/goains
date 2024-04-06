@@ -1,4 +1,4 @@
-module changeme
+module github.com/Eeelco/goainz
 
 go 1.21
 
