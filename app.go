@@ -29,8 +29,8 @@ func (a *App) startup(ctx context.Context) {
 
 }
 
-func (a *App) HasPlan() bool {
-	return config.CurrentPlan != ""
+func (a *App) GetPlan() string {
+	return config.CurrentPlan
 }
 
 func (a *App) GetAllPlans() []Plan {
@@ -46,4 +46,13 @@ func (a *App) GetAllPlans() []Plan {
 		plans = append(plans, plan)
 	}
 	return plans
+}
+
+func (a *App) SetCurrentPlan(plan_name string) {
+	config.CurrentPlan = plan_name
+
+	f, _ := os.Create(CONFIG_FILE)
+	defer f.Close()
+	cfg_json, _ := json.MarshalIndent(config, "", "  ")
+	f.Write(cfg_json)
 }

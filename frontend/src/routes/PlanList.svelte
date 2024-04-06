@@ -1,8 +1,9 @@
 <script>
   import { onMount } from "svelte";
-  import { GetAllPlans } from "../lib/wailsjs/go/main/App";
+  import { GetAllPlans, SetCurrentPlan } from "../lib/wailsjs/go/main/App";
 
   export let modalOpen = false;
+  export let plan_name = "";
   let all_plans;
 
   onMount(() => {
@@ -27,6 +28,8 @@
             <p>{plan.Description}</p>
             <button
               on:click={() => {
+                SetCurrentPlan(plan.Name);
+                plan_name = plan.Name;
                 modalOpen = false;
               }}>Select</button
             >

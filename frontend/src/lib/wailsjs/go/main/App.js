@@ -18,10 +18,14 @@ export function GetImgPrefix() {
   return window['go']['main']['App']['GetImgPrefix']();
 }
 
-export function HasPlan() {
-  return window['go']['main']['App']['HasPlan']();
+export function GetPlan() {
+  return window['go']['main']['App']['GetPlan']();
 }
 
 export function SavePlan(arg1) {
   return window['go']['main']['App']['SavePlan'](arg1);
+}
+
+export function SetCurrentPlan(arg1) {
+  return window['go']['main']['App']['SetCurrentPlan'](arg1);
 }

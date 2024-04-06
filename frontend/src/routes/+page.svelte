@@ -2,32 +2,31 @@
   import { goto } from "$app/navigation";
   import { onMount } from "svelte";
   import { EventsOn } from "../lib/wailsjs/runtime";
-  import { HasPlan } from "../lib/wailsjs/go/main/App";
+  import { GetPlan } from "../lib/wailsjs/go/main/App";
 
   import PlanList from "./PlanList.svelte";
 
   let modalOpen = false;
-  let has_plan;
+  let plan_name;
   onMount(() => {
-    HasPlan().then((res) => {
-      has_plan = res;
+    GetPlan().then((res) => {
+      plan_name = res;
     });
   });
 </script>
 
-<PlanList bind:modalOpen />
+<PlanList bind:modalOpen bind:plan_name />
 <div class="center">
   <h1>Goainz</h1>
 
-  {#if has_plan === true}
+  {#if plan_name !== ""}
     <button class="breathe" on:click={() => goto("/workout")}
-      >Continue workout</button
-    >
-  {:else}
-    <button class="breathe" on:click={() => (modalOpen = true)}
-      >Start new workout plan</button
+      >Continue {plan_name}</button
     >
   {/if}
+  <button class="breathe" on:click={() => (modalOpen = true)}
+    >Start new workout plan</button
+  >
 
   <button class="breathe" on:click={() => goto("/create_plan")}
     >Create new workout plan</button
