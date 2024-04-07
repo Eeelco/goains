@@ -18,8 +18,8 @@ export function GetImgPrefix() {
   return window['go']['main']['App']['GetImgPrefix']();
 }
 
-export function GetPlan() {
-  return window['go']['main']['App']['GetPlan']();
+export function SaveConfig(arg1) {
+  return window['go']['main']['App']['SaveConfig'](arg1);
 }
 
 export function SavePlan(arg1) {

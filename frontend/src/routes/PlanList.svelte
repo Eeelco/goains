@@ -1,6 +1,6 @@
 <script>
   import { onMount } from "svelte";
-  import { GetAllPlans, SetCurrentPlan } from "../lib/wailsjs/go/main/App";
+  import { GetAllPlans, SetCurrentPlan } from "$lib/wailsjs/go/main/App";
 
   export let modalOpen = false;
   export let plan_name = "";
@@ -16,8 +16,9 @@
 <dialog open={modalOpen}>
   <article>
     <header>
-      <h1>Choose plan</h1>
-      <button on:click={() => (modalOpen = false)}>Close</button>
+      <button aria-label="close" rel="prev" on:click={() => (modalOpen = false)}
+      ></button>
+      <p><strong>Choose plan</strong></p>
     </header>
 
     {#if all_plans}

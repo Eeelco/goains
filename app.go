@@ -29,10 +29,6 @@ func (a *App) startup(ctx context.Context) {
 
 }
 
-func (a *App) GetPlan() string {
-	return config.CurrentPlan
-}
-
 func (a *App) GetAllPlans() []Plan {
 	files, _ := os.ReadDir(CONFIG_DIR + "/plans")
 	plans := []Plan{}
@@ -54,5 +50,13 @@ func (a *App) SetCurrentPlan(plan_name string) {
 	f, _ := os.Create(CONFIG_FILE)
 	defer f.Close()
 	cfg_json, _ := json.MarshalIndent(config, "", "  ")
+	f.Write(cfg_json)
+}
+
+func (a *App) SaveConfig(c Config) {
+	config = c
+	f, _ := os.Create(CONFIG_FILE)
+	defer f.Close()
+	cfg_json, _ := json.MarshalIndent(c, "", "  ")
 	f.Write(cfg_json)
 }

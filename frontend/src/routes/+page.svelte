@@ -1,21 +1,40 @@
 <script>
   import { goto } from "$app/navigation";
   import { onMount } from "svelte";
-  import { EventsOn } from "../lib/wailsjs/runtime";
-  import { GetPlan } from "../lib/wailsjs/go/main/App";
+  import { GetConfig } from "$lib/wailsjs/go/main/App";
+  import Icon from "$lib/components/Icon.svelte";
 
   import PlanList from "./PlanList.svelte";
+  import Settings from "./Settings.svelte";
 
   let modalOpen = false;
+  let settingsOpen = false;
   let plan_name;
+  let config = { DefaultNrReps: 0, DefaultNrSets: 0, DefaultRest: 0 };
   onMount(() => {
-    GetPlan().then((res) => {
-      plan_name = res;
+    GetConfig().then((res) => {
+      config = res;
+      plan_name = res.CurrentPlan;
     });
   });
 </script>
 
 <PlanList bind:modalOpen bind:plan_name />
+<Settings bind:settingsOpen bind:config />
+<nav>
+  <ul>
+    <li>
+      <button
+        class="outline"
+        on:click={() => {
+          settingsOpen = true;
+        }}
+      >
+        <Icon name="cog" />
+      </button>
+    </li>
+  </ul>
+</nav>
 <div class="center">
   <h1>Goainz</h1>
 
