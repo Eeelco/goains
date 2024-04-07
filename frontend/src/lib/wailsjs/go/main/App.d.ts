@@ -13,5 +13,3 @@ export function GetImgPrefix():Promise<string>;
 export function SaveConfig(arg1:main.Config):Promise<void>;
 
 export function SavePlan(arg1:main.Plan):Promise<void>;
-
-export function SetCurrentPlan(arg1:string):Promise<void>;

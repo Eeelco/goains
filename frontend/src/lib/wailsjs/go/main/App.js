@@ -25,7 +25,3 @@ export function SaveConfig(arg1) {
 export function SavePlan(arg1) {
   return window['go']['main']['App']['SavePlan'](arg1);
 }
-
-export function SetCurrentPlan(arg1) {
-  return window['go']['main']['App']['SetCurrentPlan'](arg1);
-}

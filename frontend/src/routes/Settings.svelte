@@ -33,6 +33,7 @@
         type="submit"
         on:click={() => {
           SaveConfig(config);
+          settingsOpen = false;
         }}>Save</button
       >
     </form>

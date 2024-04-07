@@ -9,17 +9,20 @@
 
   let modalOpen = false;
   let settingsOpen = false;
-  let plan_name;
-  let config = { DefaultNrReps: 0, DefaultNrSets: 0, DefaultRest: 0 };
+  let config = {
+    CurrentPlan: "",
+    DefaultNrReps: 0,
+    DefaultNrSets: 0,
+    DefaultRest: 0,
+  };
   onMount(() => {
     GetConfig().then((res) => {
       config = res;
-      plan_name = res.CurrentPlan;
     });
   });
 </script>
 
-<PlanList bind:modalOpen bind:plan_name />
+<PlanList bind:modalOpen bind:config />
 <Settings bind:settingsOpen bind:config />
 <nav>
   <ul>
@@ -38,9 +41,9 @@
 <div class="center">
   <h1>Goainz</h1>
 
-  {#if plan_name !== ""}
+  {#if config.CurrentPlan !== ""}
     <button class="breathe" on:click={() => goto("/workout")}
-      >Continue {plan_name}</button
+      >Continue {config.CurrentPlan}</button
     >
   {/if}
   <button class="breathe" on:click={() => (modalOpen = true)}

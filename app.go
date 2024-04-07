@@ -44,15 +44,6 @@ func (a *App) GetAllPlans() []Plan {
 	return plans
 }
 
-func (a *App) SetCurrentPlan(plan_name string) {
-	config.CurrentPlan = plan_name
-
-	f, _ := os.Create(CONFIG_FILE)
-	defer f.Close()
-	cfg_json, _ := json.MarshalIndent(config, "", "  ")
-	f.Write(cfg_json)
-}
-
 func (a *App) SaveConfig(c Config) {
 	config = c
 	f, _ := os.Create(CONFIG_FILE)
