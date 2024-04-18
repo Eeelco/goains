@@ -51,3 +51,11 @@ func (a *App) SaveConfig(c Config) {
 	cfg_json, _ := json.MarshalIndent(c, "", "  ")
 	f.Write(cfg_json)
 }
+
+func (a *App) GetPlan(name string) Plan {
+	f, _ := os.Open(CONFIG_DIR + "/plans/" + name + ".json")
+	defer f.Close()
+	plan := Plan{}
+	json.NewDecoder(f).Decode(&plan)
+	return plan
+}

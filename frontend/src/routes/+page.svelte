@@ -1,11 +1,13 @@
 <script>
   import { goto } from "$app/navigation";
   import { onMount } from "svelte";
-  import { GetConfig } from "$lib/wailsjs/go/main/App";
+  import { GetConfig, GetPlan } from "$lib/wailsjs/go/main/App";
   import Icon from "$lib/components/Icon.svelte";
 
   import PlanList from "./PlanList.svelte";
   import Settings from "./Settings.svelte";
+
+  const rotateArray = (arr, k) => arr.slice(k).concat(arr.slice(0, k));
 
   let modalOpen = false;
   let settingsOpen = false;
@@ -15,9 +17,17 @@
     DefaultNrSets: 0,
     DefaultRest: 0,
   };
+  let plan = { Days: [] };
+  let days = [];
   onMount(() => {
     GetConfig().then((res) => {
       config = res;
+      GetPlan(config.CurrentPlan).then((res) => {
+        plan = res;
+        console.log(plan);
+        days = rotateArray(plan.Days, config.NextDayIdx);
+        console.log(days);
+      });
     });
   });
 </script>
@@ -42,9 +52,18 @@
   <h1>Goainz</h1>
 
   {#if config.CurrentPlan !== ""}
-    <button class="breathe" on:click={() => goto("/workout")}
-      >Continue {config.CurrentPlan}</button
-    >
+    <details open>
+      <summary role="button" class="secondary"
+        >Continue {config.CurrentPlan}</summary
+      >
+      {#each days as day}
+        <!-- <p> -->
+        <button class="breathe" on:click={() => goto(`/workout/${day.Name}`)}
+          >{day.Name}</button
+        >
+        <!-- </p> -->
+      {/each}
+    </details>
   {/if}
   <button class="breathe" on:click={() => (modalOpen = true)}
     >Start new workout plan</button

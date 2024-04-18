@@ -10,6 +10,8 @@ export function GetExercises(arg1:string):Promise<Array<main.Exercise>>;
 
 export function GetImgPrefix():Promise<string>;
 
+export function GetPlan(arg1:string):Promise<main.Plan>;
+
 export function SaveConfig(arg1:main.Config):Promise<void>;
 
 export function SavePlan(arg1:main.Plan):Promise<void>;
