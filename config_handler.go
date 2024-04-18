@@ -1,6 +1,7 @@
 package main
 
 import (
+	"embed"
 	"encoding/json"
 	"log"
 	"os"
@@ -11,7 +12,6 @@ func initializeConfigVariables() {
 	HOME_DIR, _ := os.UserHomeDir()
 	CONFIG_DIR = filepath.Join(HOME_DIR, ".config/"+APP_NAME)
 	CONFIG_FILE = filepath.Join(CONFIG_DIR, "config.json")
-	DB_FILE = filepath.Join("exercises.json")
 }
 
 func configFolderExists() bool {
@@ -19,11 +19,15 @@ func configFolderExists() bool {
 	return !os.IsNotExist(err)
 }
 
+//go:embed default_plans
+var default_plan_folder embed.FS
+
 func saveDefaultPlans() {
 	plan_dir := CONFIG_DIR + "/plans"
-	plan_files, _ := os.ReadDir("default_plans")
+
+	plan_files, _ := default_plan_folder.ReadDir("default_plans")
 	for _, plan := range plan_files {
-		filebytes, err := os.ReadFile("default_plans/" + plan.Name())
+		filebytes, err := default_plan_folder.ReadFile("default_plans/" + plan.Name())
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -49,14 +53,16 @@ func createConfigFolder() {
 	saveDefaultPlans()
 }
 
+//go:embed exercises.json
+var db_file embed.FS
+
 func LoadConfigAndDB() {
 	f, _ := os.Open(CONFIG_FILE)
 	defer f.Close()
 	dec := json.NewDecoder(f)
 	_ = dec.Decode(&config)
 
-	ex, _ := os.Open(DB_FILE)
-	defer ex.Close()
-	dec = json.NewDecoder(ex)
-	_ = dec.Decode(&exerciseDatabase)
+	data, _ := db_file.ReadFile("exercises.json")
+
+	json.Unmarshal(data, &exerciseDatabase)
 }
