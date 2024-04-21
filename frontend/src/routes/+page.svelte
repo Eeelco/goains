@@ -24,9 +24,7 @@
       config = res;
       GetPlan(config.CurrentPlan).then((res) => {
         plan = res;
-        console.log(plan);
         days = rotateArray(plan.Days, config.NextDayIdx);
-        console.log(days);
       });
     });
   });

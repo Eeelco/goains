@@ -8,7 +8,7 @@ import (
 
 func (a *App) GetExercises(filter string) []Exercise {
 	if filter == "" {
-		return exerciseDatabase
+		return exerciseDatabase[:MAX_NR_EXERCISES]
 	}
 	out := []Exercise{}
 	for _, ex := range exerciseDatabase {
@@ -24,23 +24,21 @@ func (a *App) GetExercises(filter string) []Exercise {
 	}
 }
 
-func (a *App) SavePlan(plan Plan) {
+func (a *App) SavePlan(plan Plan) bool {
+	_, err := os.Stat(plan.Name)
+	if os.IsNotExist(err) {
+		return false
+	}
+
 	f, err := os.Create(CONFIG_DIR + "/plans/" + plan.Name + ".json")
 	if err != nil {
-		i := 0
-		new_file := CONFIG_DIR + "/plans/" + plan.Name + "_" + string(rune(i)) + ".json"
-		for {
-			if _, err := os.Stat(new_file); os.IsNotExist(err) {
-				f, _ = os.Create(new_file)
-				break
-			}
-			i++
-			new_file = CONFIG_DIR + "/plans/" + plan.Name + "_" + string(rune(i)) + ".json"
-		}
+		return false
 	}
+
 	defer f.Close()
 	plan_json, _ := json.MarshalIndent(plan, "", "  ")
 	f.Write(plan_json)
+	return true
 }
 
 func (a *App) GetConfig() Config {

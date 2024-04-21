@@ -1,4 +1,4 @@
-module github.com/Eeelco/goainz
+module github.com/Eeelco/goains
 
 go 1.21
 

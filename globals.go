@@ -1,6 +1,6 @@
 package main
 
-const APP_NAME = "goainz"
+const APP_NAME = "goains"
 const MAX_NR_EXERCISES = 25
 
 var HOME_DIR string = ""

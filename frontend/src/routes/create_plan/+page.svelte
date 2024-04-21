@@ -39,9 +39,15 @@
         ExerciseUnits: exercises,
       })),
     };
-    SavePlan(plan).then(() => {
-      alert("Plan saved successfully");
-      goto("/");
+    SavePlan(plan).then((success) => {
+      if (success === true) {
+        alert("Plan saved successfully");
+        goto("/");
+      } else {
+        alert(
+          "Plan with the same name already exists. Please choose a different name."
+        );
+      }
     });
   }
 
