@@ -1,4 +1,4 @@
-# Goainz
+# Goains
 
 ## About
 

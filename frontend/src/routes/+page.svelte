@@ -3,35 +3,44 @@
   import { onMount } from "svelte";
   import { GetConfig, GetPlan } from "$lib/wailsjs/go/main/App";
   import Icon from "$lib/components/Icon.svelte";
+  import { config, current_day_idx, plan } from "./stores.js";
 
   import PlanList from "./PlanList.svelte";
   import Settings from "./Settings.svelte";
 
-  const rotateArray = (arr, k) => arr.slice(k).concat(arr.slice(0, k));
+  const rotateArray = (arr, k) =>
+    arr ? arr.slice(k).concat(arr.slice(0, k)) : [];
+  const LoadPlan = () => {
+    GetPlan(config_value.CurrentPlan).then((res) => {
+      plan.set(res);
+      days = rotateArray(plan_value.Days, config_value.NextDayIdx);
+    });
+  };
+
+  let config_value;
+  let plan_value;
+
+  config.subscribe((c) => {
+    config_value = c;
+    LoadPlan();
+  });
+  plan.subscribe((p) => {
+    plan_value = p;
+  });
 
   let modalOpen = false;
   let settingsOpen = false;
-  let config = {
-    CurrentPlan: "",
-    DefaultNrReps: 0,
-    DefaultNrSets: 0,
-    DefaultRest: 0,
-  };
-  let plan = { Days: [] };
+
   let days = [];
   onMount(() => {
     GetConfig().then((res) => {
-      config = res;
-      GetPlan(config.CurrentPlan).then((res) => {
-        plan = res;
-        days = rotateArray(plan.Days, config.NextDayIdx);
-      });
+      config.set(res);
     });
   });
 </script>
 
-<PlanList bind:modalOpen bind:config />
-<Settings bind:settingsOpen bind:config />
+<PlanList bind:modalOpen />
+<Settings bind:settingsOpen />
 <nav>
   <ul>
     <li>
@@ -47,19 +56,21 @@
   </ul>
 </nav>
 <div class="center">
-  <h1>Goainz</h1>
+  <h1>Goains</h1>
 
-  {#if config.CurrentPlan !== ""}
+  {#if config_value.CurrentPlan !== ""}
     <details open>
       <summary role="button" class="secondary"
-        >Continue {config.CurrentPlan}</summary
+        >Continue {config_value.CurrentPlan}</summary
       >
-      {#each days as day}
-        <!-- <p> -->
-        <button class="breathe" on:click={() => goto(`/workout/${day.Name}`)}
-          >{day.Name}</button
+      {#each days as day, idx}
+        <button
+          class="breathe"
+          on:click={() => {
+            current_day_idx.set(idx);
+            goto(`/workout`);
+          }}>{day.Name}</button
         >
-        <!-- </p> -->
       {/each}
     </details>
   {/if}
