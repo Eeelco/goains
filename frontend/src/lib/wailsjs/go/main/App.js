@@ -10,6 +10,10 @@ export function GetConfig() {
   return window['go']['main']['App']['GetConfig']();
 }
 
+export function GetExerciseById(arg1) {
+  return window['go']['main']['App']['GetExerciseById'](arg1);
+}
+
 export function GetExercises(arg1) {
   return window['go']['main']['App']['GetExercises'](arg1);
 }

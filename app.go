@@ -59,3 +59,12 @@ func (a *App) GetPlan(name string) Plan {
 	json.NewDecoder(f).Decode(&plan)
 	return plan
 }
+
+func (a *App) GetExerciseById(id string) Exercise {
+	for _, ex := range exerciseDatabase {
+		if ex.Id == id {
+			return ex
+		}
+	}
+	return Exercise{}
+}
