@@ -38,7 +38,10 @@
   });
 </script>
 
-<h2>{current_day.Name} {elapsed_string}</h2>
+<div role="group">
+  <h2>{current_day.Name} {elapsed_string}</h2>
+  <button>Save</button>
+</div>
 {#if exercises.length === 0}
   <p>No Exercises found</p>
 {:else}
@@ -68,7 +71,6 @@
     <body>
       <!-- <p>{exercises[current_exercise_idx].Instructions.join("\n")}</p> -->
       {#each current_day.ExerciseUnits[current_exercise_idx].Sets as set, i}
-        <!-- <p>{set.Repetitions} x {set.Weight}kg</p> -->
         <ExerciseCard {set} set_idx={i + 1} />
       {/each}
     </body>
