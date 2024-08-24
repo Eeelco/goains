@@ -1,4 +1,5 @@
 <script>
+  import { goto } from "$app/navigation";
   import { onDestroy } from "svelte";
   import { current_day_idx, plan } from "../stores.js";
   import { get } from "svelte/store";
@@ -20,6 +21,13 @@
     exercises = [...exercises];
   });
 
+  let exit_function = () => {
+    if (confirm("Are you sure you want to exit?")) {
+      goto("/");
+    } else {
+    }
+  };
+
   let elapsed = 0;
   let elapsed_string = "";
   let last_time = window.performance.now();
@@ -39,7 +47,8 @@
 </script>
 
 <div role="group">
-  <h2>{current_day.Name} {elapsed_string}</h2>
+  <h2>{current_day.Name} <br /> {elapsed_string}</h2>
+  <button class="contrast" on:click={exit_function}>Exit</button>
   <button>Save</button>
 </div>
 {#if exercises.length === 0}
