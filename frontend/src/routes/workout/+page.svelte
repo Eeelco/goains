@@ -3,7 +3,7 @@
   import { onDestroy } from "svelte";
   import { current_day_idx, plan } from "../stores.js";
   import { get } from "svelte/store";
-  import { GetExerciseById } from "$lib/wailsjs/go/main/App";
+  import { GetExercisesByIDs } from "$lib/wailsjs/go/main/App";
   import ExerciseCard from "../../lib/components/ExerciseCard.svelte";
 
   let current_day;
@@ -13,12 +13,11 @@
   plan.subscribe((p) => {
     current_day = p.Days[get(current_day_idx)];
 
-    current_day.ExerciseUnits.map((eu) => {
-      GetExerciseById(eu.ExerciseId).then((res) => {
-        exercises.push(res);
-      });
+    GetExercisesByIDs(
+      current_day.ExerciseUnits.map((eu) => eu.ExerciseId)
+    ).then((res) => {
+      exercises = res;
     });
-    exercises = [...exercises];
   });
 
   let exit_function = () => {

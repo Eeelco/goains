@@ -65,6 +65,7 @@
       >
       {#each days as day, idx}
         <button
+          data-sveltekit-preload-data="hover"
           class="breathe"
           on:click={() => {
             current_day_idx.set(idx);

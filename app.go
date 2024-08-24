@@ -68,3 +68,11 @@ func (a *App) GetExerciseById(id string) Exercise {
 	}
 	return Exercise{}
 }
+
+func (a *App) GetExercisesByIDs(ids []string) []Exercise {
+	exercises := []Exercise{}
+	for _, id := range ids {
+		exercises = append(exercises, a.GetExerciseById(id))
+	}
+	return exercises
+}

@@ -18,6 +18,10 @@ export function GetExercises(arg1) {
   return window['go']['main']['App']['GetExercises'](arg1);
 }
 
+export function GetExercisesByIDs(arg1) {
+  return window['go']['main']['App']['GetExercisesByIDs'](arg1);
+}
+
 export function GetImgPrefix() {
   return window['go']['main']['App']['GetImgPrefix']();
 }
