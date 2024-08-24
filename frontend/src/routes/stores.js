@@ -10,3 +10,5 @@ export const config = writable({
 export const plan = writable({ Days: [] });
 
 export const current_day_idx = writable(0);
+
+export const rest_timer = writable(0);

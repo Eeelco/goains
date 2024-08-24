@@ -1,14 +1,17 @@
 <script>
   import { goto } from "$app/navigation";
   import { onDestroy } from "svelte";
-  import { current_day_idx, plan } from "../stores.js";
+  import { current_day_idx, plan, rest_timer } from "../stores.js";
   import { get } from "svelte/store";
   import { GetExercisesByIDs } from "$lib/wailsjs/go/main/App";
   import ExerciseCard from "../../lib/components/ExerciseCard.svelte";
+  import TimeModal from "../../lib/components/TimeModal.svelte";
 
   let current_day;
   let current_exercise_idx = 0;
   let exercises = [];
+  let is_break = false;
+  let remaining_time = 0;
 
   plan.subscribe((p) => {
     current_day = p.Days[get(current_day_idx)];
@@ -18,6 +21,16 @@
     ).then((res) => {
       exercises = res;
     });
+  });
+
+  rest_timer.subscribe((rt) => {
+    if (!is_break) {
+      is_break = true;
+    }
+    remaining_time = rt;
+    if (rt <= 0) {
+      is_break = false;
+    }
   });
 
   let exit_function = () => {
@@ -38,6 +51,10 @@
     elapsed += now - last_time;
     last_time = now;
     elapsed_string = new Date(elapsed).toISOString().substring(11, 19);
+
+    if (is_break) {
+      rest_timer.update((rt) => rt - (now - last_time));
+    }
   })();
 
   onDestroy(() => {
@@ -45,6 +62,11 @@
   });
 </script>
 
+<TimeModal
+  bind:modalOpen={is_break}
+  bind:remaining_time
+  max_time={current_day.ExerciseUnits[current_exercise_idx].Rest}
+/>
 <div role="group">
   <h2>{current_day.Name} <br /> {elapsed_string}</h2>
   <button class="contrast" on:click={exit_function}>Exit</button>
@@ -79,7 +101,11 @@
     <body>
       <!-- <p>{exercises[current_exercise_idx].Instructions.join("\n")}</p> -->
       {#each current_day.ExerciseUnits[current_exercise_idx].Sets as set, i}
-        <ExerciseCard {set} set_idx={i + 1} />
+        <ExerciseCard
+          {set}
+          set_idx={i + 1}
+          rest_time={current_day.ExerciseUnits[current_exercise_idx].Rest}
+        />
       {/each}
     </body>
   </article>
