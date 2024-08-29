@@ -15,7 +15,6 @@
     is_open = !is_open;
 
     if (!is_open) {
-      is_break = true;
       rest_timer.set(rest_time);
     }
   };

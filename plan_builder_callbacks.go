@@ -14,14 +14,14 @@ func (a *App) GetExercises(filter string) []Exercise {
 	for _, ex := range exerciseDatabase {
 		if strings.Contains(strings.ToLower(ex.Name), strings.ToLower(filter)) {
 			out = append(out, ex)
+			if len(out) >= MAX_NR_EXERCISES {
+				break
+			}
 		}
 	}
 
-	if MAX_NR_EXERCISES < len(out) {
-		return out[:MAX_NR_EXERCISES]
-	} else {
-		return out
-	}
+	return out
+
 }
 
 func (a *App) SavePlan(plan Plan) bool {

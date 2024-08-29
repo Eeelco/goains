@@ -24,6 +24,10 @@
   });
 
   rest_timer.subscribe((rt) => {
+    if (rt === 0) {
+      is_break = false;
+      return;
+    }
     if (!is_break) {
       is_break = true;
     }
@@ -48,12 +52,13 @@
   (function loop() {
     frame = requestAnimationFrame(loop);
     const now = window.performance.now();
-    elapsed += now - last_time;
+    const delta = now - last_time;
+    elapsed += delta;
     last_time = now;
     elapsed_string = new Date(elapsed).toISOString().substring(11, 19);
 
     if (is_break) {
-      rest_timer.update((rt) => rt - (now - last_time));
+      rest_timer.update((rt) => rt - delta/1000 );
     }
   })();
 
@@ -62,11 +67,8 @@
   });
 </script>
 
-<TimeModal
-  bind:modalOpen={is_break}
-  bind:remaining_time
-  max_time={current_day.ExerciseUnits[current_exercise_idx].Rest}
-/>
+<div class="exercise-page">
+  
 <div role="group">
   <h2>{current_day.Name} <br /> {elapsed_string}</h2>
   <button class="contrast" on:click={exit_function}>Exit</button>
@@ -110,8 +112,16 @@
     </body>
   </article>
 {/if}
-
+<TimeModal
+  bind:modalOpen={is_break}
+  bind:remaining_time
+  max_time={current_day.ExerciseUnits[current_exercise_idx].Rest}
+/>
+</div>
 <style>
+  .exercise-page {
+    position: relative;
+  }
   .center {
     text-align: center;
     display: flex;
