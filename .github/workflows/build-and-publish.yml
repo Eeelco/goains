@@ -46,6 +46,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.get_current_release.outputs.upload_url }}
-          asset_path: ./my-goains-binaries.zip
+          asset_path: ./goains-binaries.zip
           asset_name: goains-binaries.zip
           asset_content_type: application/zip
