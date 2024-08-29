@@ -39,6 +39,9 @@
 
   let exit_function = () => {
     if (confirm("Are you sure you want to exit?")) {
+      is_break = false;
+      rest_timer.set(0);
+      current_exercise_idx = 0;
       goto("/");
     } else {
     }
@@ -72,7 +75,7 @@
 <div role="group">
   <h2>{current_day.Name} <br /> {elapsed_string}</h2>
   <button class="contrast" on:click={exit_function}>Exit</button>
-  <button>Save</button>
+  <button on:click={exit_function}>Save</button>
 </div>
 {#if exercises.length === 0}
   <p>No Exercises found</p>
@@ -91,11 +94,11 @@
         <div role="group">
           {#if current_exercise_idx > 0}
             <button on:click={() => (current_exercise_idx -= 1)}
-              >Previous</button
+              >Show previous</button
             >
           {/if}
           {#if current_exercise_idx < exercises.length - 1}
-            <button on:click={() => (current_exercise_idx += 1)}>Next</button>
+            <button on:click={() => (current_exercise_idx += 1)}>Show next</button>
           {/if}
         </div>
       </div>
