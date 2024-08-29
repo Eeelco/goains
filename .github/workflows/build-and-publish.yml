@@ -32,25 +32,20 @@ jobs:
       - name: Create a zip file of the binaries
         run: zip -r goains-binaries.zip build/bin/
 
-      - name: Get release ID
-        id: get_release
-        uses: actions/github-script@v6
+      - name: Get Current Release
+        id: get_current_release
+        uses: joutvhu/get-release@v1
         with:
-          script: |
-            const { data: releases } = await github.repos.listReleases({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-            });
-            const release = releases.find(release => release.tag_name === context.ref.replace('refs/tags/', ''));
-            if (!release) {
-              throw new Error(`Release not found for tag ${context.ref}`);
-            }
-            return { id: release.id, upload_url: release.upload_url };
+          debug: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Upload binaries to release
+      - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.get_release.outputs.upload_url }}
-          asset_path: goains-binaries.zip
+          upload_url: ${{ steps.get_current_release.outputs.upload_url }}
+          asset_path: ./my-goains-binaries.zip
           asset_name: goains-binaries.zip
           asset_content_type: application/zip
