@@ -29,8 +29,28 @@ jobs:
       - name: Run Docker container to build binaries
         run: docker run --rm -v ${{ github.workspace }}/build/bin:/artifacts goains_builder
 
-      - name: Upload binaries
-        uses: actions/upload-artifact@v3
+      - name: Create a zip file of the binaries
+        run: zip -r goains-binaries.zip build/bin/
+
+      - name: Get release ID
+        id: get_release
+        uses: actions/github-script@v6
         with:
-          name: goains-binaries
-          path: build/bin/
+          script: |
+            const { data: releases } = await github.repos.listReleases({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+            });
+            const release = releases.find(release => release.tag_name === context.ref.replace('refs/tags/', ''));
+            if (!release) {
+              throw new Error(`Release not found for tag ${context.ref}`);
+            }
+            return { id: release.id, upload_url: release.upload_url };
+
+      - name: Upload binaries to release
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.get_release.outputs.upload_url }}
+          asset_path: goains-binaries.zip
+          asset_name: goains-binaries.zip
+          asset_content_type: application/zip
