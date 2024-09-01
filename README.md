@@ -9,6 +9,19 @@ This project is very unfinished and under semi-active development.
 Basic configuration can be done via the GUI. The config file and any created
 workout plans are stored as json files in the `~/.config/goains` folder.
 
+## Installation
+
+### Download
+
+Attached to each tagged release is a zip file containing compiled binaries for both aarch64
+and amd64 architecture.
+
+### Building from source
+
+- Install and setup [Wails](https://wails.io)
+- Run `wails build`
+- To cross-compile for aarch64, run `make cross` (requires Docker)
+
 ## Implemented features
 
 - Create a workout plan, save it as a json file
@@ -29,12 +42,6 @@ workout plans are stored as json files in the `~/.config/goains` folder.
 - UI cleanups
 - Github action to automatically compile tagged releases
 - (Maybe) Rename project
-
-## Building
-
-- Install and setup [Wails](https://wails.io)
-- Run `wails build`
-- To cross-compile for aarch64, run `make cross` (requires Docker)
 
 ## Credit
 
