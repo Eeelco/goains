@@ -31,7 +31,7 @@ and amd64 architecture.
 ## Feature roadmap
 
 - Better Readme (Screenshots, ...)
-- Show which workout is next
+- Notification sound when rest ends
 - During workout (**Core functionality**):
 
   - Save progress afterwards
@@ -40,7 +40,6 @@ and amd64 architecture.
 - Track workout progress
 - Ability to add own exercises to database
 - UI cleanups
-- Github action to automatically compile tagged releases
 - (Maybe) Rename project
 
 ## Credit

@@ -11,7 +11,6 @@
   let current_exercise_idx = 0;
   let exercises = [];
   let is_break = false;
-  let remaining_time = 0;
 
   plan.subscribe((p) => {
     current_day = p.Days[get(current_day_idx)];
@@ -23,20 +22,19 @@
     });
   });
 
+  // If rest timer is set to a positive value, it means we are in a break
+  // If it is set to 0, it means the break is over
   rest_timer.subscribe((rt) => {
-    if (rt === 0) {
+    if (rt <= 0) {
       is_break = false;
       return;
     }
     if (!is_break) {
       is_break = true;
     }
-    remaining_time = rt;
-    if (rt <= 0) {
-      is_break = false;
-    }
   });
 
+  // TODO: Update to allow save button to actually save the workout
   let exit_function = () => {
     if (confirm("Are you sure you want to exit?")) {
       is_break = false;
@@ -47,11 +45,14 @@
     }
   };
 
+  // Variables for showing workout timer
   let elapsed = 0;
   let elapsed_string = "";
   let last_time = window.performance.now();
   let frame;
 
+  // Timer loop
+  // Used to track length of workout and rest times
   (function loop() {
     frame = requestAnimationFrame(loop);
     const now = window.performance.now();
@@ -86,6 +87,8 @@
         <div class="breathe">
           <h4>{exercises[current_exercise_idx].Name}</h4>
         </div>
+        <!-- TODO: On clicking this image, it should open a modal with all images
+             and instructions for the exercise -->
         <img
           src={`assets/img/${exercises[current_exercise_idx].Images[0]}`}
           alt={exercises[current_exercise_idx].Name}
@@ -104,8 +107,8 @@
       </div>
     </header>
     <body>
-      <!-- <p>{exercises[current_exercise_idx].Instructions.join("\n")}</p> -->
       {#each current_day.ExerciseUnits[current_exercise_idx].Sets as set, i}
+      <!-- Shows number of reps and weight for each set -->
         <ExerciseCard
           {set}
           set_idx={i + 1}
@@ -116,8 +119,7 @@
   </article>
 {/if}
 <TimeModal
-  bind:modalOpen={is_break}
-  bind:remaining_time
+  bind:is_break
   max_time={current_day.ExerciseUnits[current_exercise_idx].Rest}
 />
 </div>

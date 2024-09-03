@@ -8,12 +8,16 @@ import (
 	"path/filepath"
 )
 
+// This file contains functions related to handling configuration and data files.
+
+// initializeConfigVariables initializes the configuration variables such as the home directory and the configuration directory.
 func initializeConfigVariables() {
 	HOME_DIR, _ := os.UserHomeDir()
 	CONFIG_DIR = filepath.Join(HOME_DIR, ".config", APP_NAME)
 	CONFIG_FILE = filepath.Join(CONFIG_DIR, "config.json")
 }
 
+// configFolderExists checks if the configuration folder exists.
 func configFolderExists() bool {
 	_, err := os.Stat(CONFIG_DIR)
 	return !os.IsNotExist(err)
@@ -38,6 +42,7 @@ func saveDefaultPlans() {
 	}
 }
 
+// createConfigFolder creates the configuration folder and saves the default configuration.
 func createConfigFolder() {
 	os.Mkdir(CONFIG_DIR, 0755)
 	os.Mkdir(CONFIG_DIR+"/plans", 0755)

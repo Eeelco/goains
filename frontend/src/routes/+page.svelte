@@ -20,6 +20,8 @@
   let config_value;
   let plan_value;
 
+  // On startup, config is loaded and then plan is loaded
+  // and set to the current day
   config.subscribe((c) => {
     config_value = c;
     LoadPlan();
@@ -70,7 +72,7 @@
           on:click={() => {
             current_day_idx.set(idx);
             goto(`/workout`);
-          }}>{day.Name}</button
+          }} style="margin-right:5px; margin-left:5px;">{day.Name}</button
         >
       {/each}
     </details>

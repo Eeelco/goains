@@ -1,50 +1,59 @@
 package main
 
+// This file contains the definition of various datatypes used in the application.
+
+// Exercise represents an exercise with its details.
 type Exercise struct {
-	Id               string
-	Name             string
-	Force            string
-	Level            string
-	Mechanic         string
-	Category         string
-	Equipment        string
-	PrimaryMuscles   []string
-	SecondaryMuscles []string
-	Instructions     []string
-	Images           []string
+	Id               string   // Unique identifier for the exercise
+	Name             string   // Name of the exercise
+	Force            string   // Type of force applied during the exercise
+	Level            string   // Difficulty level of the exercise
+	Mechanic         string   // Movement mechanic of the exercise
+	Category         string   // Category of the exercise
+	Equipment        string   // Equipment required for the exercise
+	PrimaryMuscles   []string // Muscles targeted as primary during the exercise
+	SecondaryMuscles []string // Muscles targeted as secondary during the exercise
+	Instructions     []string // Instructions for performing the exercise
+	Images           []string // Images related to the exercise
 }
 
+// Set represents a set of repetitions and weight for an exercise.
 type Set struct {
-	Repetitions int
-	Weight      int
+	Repetitions int // Number of repetitions in the set
+	Weight      int // Weight used for the set
 }
 
+// ExerciseUnit represents an exercise unit with its details.
 type ExerciseUnit struct {
-	ExerciseId   string
-	ExerciseName string
-	Rest         int
-	Sets         []Set
+	ExerciseId   string // Identifier of the exercise
+	ExerciseName string // Name of the exercise
+	Rest         int    // Rest time in seconds after performing the exercise
+	Sets         []Set  // Sets of repetitions and weight for the exercise
 }
 
+// PlanDay represents a day in a workout plan with its exercise units.
 type PlanDay struct {
-	Name          string
-	ExerciseUnits []ExerciseUnit
+	Name          string         // Name of the day
+	ExerciseUnits []ExerciseUnit // Exercise units for the day
 }
 
+// Plan represents a workout plan with its details and days.
 type Plan struct {
-	Name        string
-	Description string
-	Days        []PlanDay
+	Name        string    // Name of the plan
+	Description string    // Description of the plan
+	Days        []PlanDay // Days in the plan
 }
 
+// Config represents the configuration settings for the application.
 type Config struct {
-	CurrentPlan   string
-	NextDayIdx    int
-	DefaultNrSets int
-	DefaultNrReps int
-	DefaultRest   int
+	CurrentPlan   string // Identifier of the current plan
+	NextDayIdx    int    // Index of the next day in the plan
+	DefaultNrSets int    // Default number of sets for an exercise
+	DefaultNrReps int    // Default number of repetitions for an exercise
+	DefaultRest   int    // Default rest time in seconds between exercises
 }
 
+// DefaultCfg returns a Config instance with default values.
 func DefaultCfg() Config {
 	return Config{
 		CurrentPlan:   "",
