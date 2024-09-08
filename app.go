@@ -4,6 +4,9 @@ import (
 	"context"
 	"encoding/json"
 	"os"
+	"time"
+
+	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
 // App struct
@@ -22,7 +25,7 @@ func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
 
 	initializeConfigVariables()
-	if !configFolderExists() {
+	if !FolderExists(CONFIG_DIR) {
 		createConfigFolder()
 	}
 	LoadConfigAndDB()
@@ -75,4 +78,29 @@ func (a *App) GetExercisesByIDs(ids []string) []Exercise {
 		exercises = append(exercises, a.GetExerciseById(id))
 	}
 	return exercises
+}
+
+func (a *App) StartWorkout() {
+	start_time = time.Now()
+}
+
+func (a *App) WorkoutExitDialog() bool {
+	result, _ := runtime.MessageDialog(a.ctx, runtime.MessageDialogOptions{
+		Type:    runtime.QuestionDialog,
+		Title:   "Exit Workout",
+		Message: "Are you sure you want to exit the workout?",
+	})
+	return result == "Yes" || result == "Ok"
+}
+
+func (a *App) WorkoutSaveDialog(data PlanDay) bool {
+	result, _ := runtime.MessageDialog(a.ctx, runtime.MessageDialogOptions{
+		Type:    runtime.QuestionDialog,
+		Title:   "Save Workout",
+		Message: "Do you want to exit and save the workout?",
+	})
+	if result == "Yes" || result == "Ok" {
+		saveWorkout(data)
+	}
+	return result == "Yes" || result == "Ok"
 }

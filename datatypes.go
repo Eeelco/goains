@@ -19,8 +19,8 @@ type Exercise struct {
 
 // Set represents a set of repetitions and weight for an exercise.
 type Set struct {
-	Repetitions int // Number of repetitions in the set
-	Weight      int // Weight used for the set
+	Repetitions int     // Number of repetitions in the set
+	Weight      float64 // Weight used for the set
 }
 
 // ExerciseUnit represents an exercise unit with its details.
@@ -51,6 +51,13 @@ type Config struct {
 	DefaultNrSets int    // Default number of sets for an exercise
 	DefaultNrReps int    // Default number of repetitions for an exercise
 	DefaultRest   int    // Default rest time in seconds between exercises
+}
+
+// Progress represents the progress of a workout plan.
+type Progress struct {
+	Start    string  // Start time of the workout
+	Duration float64 // Duration of the workout in seconds
+	Data     PlanDay // Data of the workout
 }
 
 // DefaultCfg returns a Config instance with default values.

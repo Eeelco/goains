@@ -1,9 +1,9 @@
 <script>
   import { goto } from "$app/navigation";
-  import { onDestroy } from "svelte";
+  import { onDestroy, onMount } from "svelte";
   import { current_day_idx, plan, rest_timer } from "../stores.js";
   import { get } from "svelte/store";
-  import { GetExercisesByIDs } from "$lib/wailsjs/go/main/App";
+  import { GetExercisesByIDs, WorkoutExitDialog, WorkoutSaveDialog } from "$lib/wailsjs/go/main/App";
   import ExerciseCard from "../../lib/components/ExerciseCard.svelte";
   import TimeModal from "../../lib/components/TimeModal.svelte";
 
@@ -14,6 +14,11 @@
 
   plan.subscribe((p) => {
     current_day = p.Days[get(current_day_idx)];
+    for (let i = 0; i < current_day.ExerciseUnits.length; i++) {
+      for (let j = 0; j < current_day.ExerciseUnits[i].Sets.length; j++) {
+        current_day.ExerciseUnits[i].Sets[j].Done = false;
+      }
+    }
 
     GetExercisesByIDs(
       current_day.ExerciseUnits.map((eu) => eu.ExerciseId)
@@ -34,16 +39,36 @@
     }
   });
 
-  // TODO: Update to allow save button to actually save the workout
+  let stop_workout = () => {
+    is_break = false;
+    rest_timer.set(0);
+    current_exercise_idx = 0;
+    goto("/");
+  };
+
   let exit_function = () => {
-    if (confirm("Are you sure you want to exit?")) {
-      is_break = false;
-      rest_timer.set(0);
-      current_exercise_idx = 0;
-      goto("/");
+    WorkoutExitDialog().then((res) => {
+    if (res) {
+      stop_workout();
     } else {
     }
+  });
   };
+
+  let save_function = () => {
+    const done_exercises = current_day.ExerciseUnits.map((eu) => {
+      return {
+        ExerciseId: eu.ExerciseId,
+        Sets: eu.Sets.filter((s) => s.Done),
+      };
+    });
+    WorkoutSaveDialog({Name: current_day.Name, ExerciseUnits: done_exercises}).then((res) => {
+      if (res) {
+        stop_workout();
+      } else {
+      }
+    });
+  }
 
   // Variables for showing workout timer
   let elapsed = 0;
@@ -76,7 +101,7 @@
 <div role="group">
   <h2>{current_day.Name} <br /> {elapsed_string}</h2>
   <button class="contrast" on:click={exit_function}>Exit</button>
-  <button on:click={exit_function}>Save</button>
+  <button on:click={save_function}>Save</button>
 </div>
 {#if exercises.length === 0}
   <p>No Exercises found</p>
@@ -110,7 +135,7 @@
       {#each current_day.ExerciseUnits[current_exercise_idx].Sets as set, i}
       <!-- Shows number of reps and weight for each set -->
         <ExerciseCard
-          {set}
+          bind:set={set}
           set_idx={i + 1}
           rest_time={current_day.ExerciseUnits[current_exercise_idx].Rest}
         />

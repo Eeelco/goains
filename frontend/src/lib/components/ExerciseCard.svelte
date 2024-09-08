@@ -14,6 +14,8 @@
       !document.getElementById(`WeightInput${set_idx}`).disabled;
     is_open = !is_open;
 
+    set.Done = !is_open;
+
     if (!is_open) {
       rest_timer.set(rest_time);
     }

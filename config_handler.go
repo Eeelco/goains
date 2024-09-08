@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"time"
 )
 
 // This file contains functions related to handling configuration and data files.
@@ -17,9 +18,9 @@ func initializeConfigVariables() {
 	CONFIG_FILE = filepath.Join(CONFIG_DIR, "config.json")
 }
 
-// configFolderExists checks if the configuration folder exists.
-func configFolderExists() bool {
-	_, err := os.Stat(CONFIG_DIR)
+// FolderExists checks if the given folder exists.
+func FolderExists(folder string) bool {
+	_, err := os.Stat(folder)
 	return !os.IsNotExist(err)
 }
 
@@ -46,6 +47,7 @@ func saveDefaultPlans() {
 func createConfigFolder() {
 	os.Mkdir(CONFIG_DIR, 0755)
 	os.Mkdir(CONFIG_DIR+"/plans", 0755)
+	os.Mkdir(CONFIG_DIR+"/workouts", 0755)
 	var default_cfg = DefaultCfg()
 
 	config = default_cfg
@@ -70,4 +72,32 @@ func LoadConfigAndDB() {
 	data, _ := db_file.ReadFile("exercises.json")
 
 	json.Unmarshal(data, &exerciseDatabase)
+}
+
+func saveWorkout(data PlanDay) {
+	end := time.Now()
+	duration := end.Sub(start_time)
+	filename := CONFIG_DIR + "/workouts/" + config.CurrentPlan + ".json"
+
+	if _, err := os.Stat(filename); os.IsNotExist(err) {
+		os.Create(CONFIG_DIR + "/workouts/" + data.Name + ".json")
+	}
+	f, err := os.OpenFile(filename, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer f.Close()
+
+	with_metadata := Progress{
+		Start:    start_time.String(),
+		Duration: duration.Seconds(),
+		Data:     data,
+	}
+
+	json_data, err := json.MarshalIndent(with_metadata, "", "  ")
+	if err != nil {
+		log.Fatal(err)
+	}
+	f.Write(json_data)
+	f.Write(([]byte)(",\n"))
 }

@@ -37,3 +37,15 @@ export function SaveConfig(arg1) {
 export function SavePlan(arg1) {
   return window['go']['main']['App']['SavePlan'](arg1);
 }
+
+export function StartWorkout() {
+  return window['go']['main']['App']['StartWorkout']();
+}
+
+export function WorkoutExitDialog() {
+  return window['go']['main']['App']['WorkoutExitDialog']();
+}
+
+export function WorkoutSaveDialog(arg1) {
+  return window['go']['main']['App']['WorkoutSaveDialog'](arg1);
+}

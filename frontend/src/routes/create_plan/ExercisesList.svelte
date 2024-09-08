@@ -24,7 +24,7 @@
 
 <dialog open={modalOpen}>
   <article>
-    <h1>Modal</h1>
+    <h1>Add exercise</h1>
     <button on:click={() => (modalOpen = false)}>Close</button>
 
     <input

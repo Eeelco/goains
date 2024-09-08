@@ -19,3 +19,9 @@ export function GetPlan(arg1:string):Promise<main.Plan>;
 export function SaveConfig(arg1:main.Config):Promise<void>;
 
 export function SavePlan(arg1:main.Plan):Promise<boolean>;
+
+export function StartWorkout():Promise<void>;
+
+export function WorkoutExitDialog():Promise<boolean>;
+
+export function WorkoutSaveDialog(arg1:main.PlanDay):Promise<boolean>;

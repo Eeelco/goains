@@ -1,7 +1,7 @@
 <script>
   import { goto } from "$app/navigation";
   import { onMount } from "svelte";
-  import { GetConfig, GetPlan } from "$lib/wailsjs/go/main/App";
+  import { GetConfig, GetPlan, StartWorkout } from "$lib/wailsjs/go/main/App";
   import Icon from "$lib/components/Icon.svelte";
   import { config, current_day_idx, plan } from "./stores.js";
 
@@ -71,6 +71,7 @@
           class="breathe"
           on:click={() => {
             current_day_idx.set(idx);
+            StartWorkout();
             goto(`/workout`);
           }} style="margin-right:5px; margin-left:5px;">{day.Name}</button
         >

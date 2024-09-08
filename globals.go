@@ -1,5 +1,7 @@
 package main
 
+import "time"
+
 const APP_NAME = "goains"
 const MAX_NR_EXERCISES = 25
 
@@ -10,3 +12,4 @@ var CONFIG_FILE string = ""
 var exerciseDatabase []Exercise
 
 var config Config
+var start_time time.Time
