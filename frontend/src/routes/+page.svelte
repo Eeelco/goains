@@ -73,7 +73,8 @@
             current_day_idx.set(idx);
             StartWorkout();
             goto(`/workout`);
-          }} style="margin-right:5px; margin-left:5px;">{day.Name}</button
+          }}
+          style="margin-right:5px; margin-left:5px;">{day.Name}</button
         >
       {/each}
     </details>

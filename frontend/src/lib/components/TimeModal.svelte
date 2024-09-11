@@ -12,14 +12,13 @@
   });
 
   let convertToMinutesSeconds = (s) => {
-    s = Math.floor(s);  
-    return(s-(s%=60))/60+(9<s?':':':0')+s
-  }
+    s = Math.floor(s);
+    return (s - (s %= 60)) / 60 + (9 < s ? ":" : ":0") + s;
+  };
 
   rest_timer.subscribe((rt) => {
     remaining_time = rt;
   });
-    
 
   $: {
     if (is_break && dialog !== null) {
@@ -30,17 +29,14 @@
       dialog.style.setProperty("right", "-9999px");
     }
   }
-
 </script>
 
-<div class="time-modal" id="time-dialog" >
+<div class="time-modal" id="time-dialog">
   <article data-theme="light">
     <header>
-      <button on:click={() => (rest_timer.set(0))}>
-        Stop timer
-        </button>
+      <button on:click={() => rest_timer.set(0)}> Stop timer </button>
     </header>
-     <p style="color: black;">Rest:  {convertToMinutesSeconds(remaining_time)}</p>
+    <p style="color: black;">Rest: {convertToMinutesSeconds(remaining_time)}</p>
     <progress value={remaining_time} max={max_time} />
   </article>
 </div>

@@ -26,6 +26,10 @@ export function GetImgPrefix() {
   return window['go']['main']['App']['GetImgPrefix']();
 }
 
+export function GetLastWorkout(arg1) {
+  return window['go']['main']['App']['GetLastWorkout'](arg1);
+}
+
 export function GetPlan(arg1) {
   return window['go']['main']['App']['GetPlan'](arg1);
 }

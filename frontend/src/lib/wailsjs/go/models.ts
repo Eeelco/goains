@@ -48,6 +48,18 @@ export namespace main {
 	
 	    }
 	}
+	export class Progress {
+	
+	
+	    static createFrom(source: any = {}) {
+	        return new Progress(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	
+	    }
+	}
 
 }
 

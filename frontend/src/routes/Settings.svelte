@@ -20,7 +20,7 @@
       ></button>
       <p><strong>Settings</strong></p>
     </header>
-    <h2>Default values</h2>
+    <h2>Default values for new plans</h2>
     <form>
       <label
         >Default reps

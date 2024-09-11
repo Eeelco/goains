@@ -24,45 +24,49 @@
 
 <details open={is_open}>
   <summary class="center">Set {set_idx}</summary>
-  <div role="group">
-    Reps:
-    <button
-      on:click={() => {
-        set.Repetitions -= 1;
-      }}><Icon name="minus" /></button
-    >
-    <input
-      type="number"
-      min="1"
-      step="1"
-      bind:value={set.Repetitions}
-      id={`RepInput${set_idx}`}
-    />
-    <button
-      on:click={() => {
-        set.Repetitions += 1;
-      }}><Icon name="plus" /></button
-    >
+  <div class="center">
+    Repetitions
+    <div role="group">
+      <button
+        on:click={() => {
+          set.Repetitions -= 1;
+        }}><Icon name="minus" /></button
+      >
+      <input
+        type="number"
+        min="1"
+        step="1"
+        bind:value={set.Repetitions}
+        id={`RepInput${set_idx}`}
+      />
+      <button
+        on:click={() => {
+          set.Repetitions += 1;
+        }}><Icon name="plus" /></button
+      >
+    </div>
   </div>
-  <div role="group">
-    Weight:
-    <button
-      on:click={() => {
-        set.Weight -= 1;
-      }}><Icon name="minus" /></button
-    >
-    <input
-      type="number"
-      min="0"
-      step="0.25"
-      bind:value={set.Weight}
-      id={`WeightInput${set_idx}`}
-    />
-    <button
-      on:click={() => {
-        set.Weight += 1;
-      }}><Icon name="plus" /></button
-    >
+  <div class="center">
+    Weight
+    <div role="group">
+      <button
+        on:click={() => {
+          set.Weight -= 1;
+        }}><Icon name="minus" /></button
+      >
+      <input
+        type="number"
+        min="0"
+        step="0.25"
+        bind:value={set.Weight}
+        id={`WeightInput${set_idx}`}
+      />
+      <button
+        on:click={() => {
+          set.Weight += 1;
+        }}><Icon name="plus" /></button
+      >
+    </div>
   </div>
   <div role="group">
     <button on:click={toggle_input} class={is_open ? "primary" : "secondary"}

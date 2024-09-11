@@ -14,6 +14,8 @@ export function GetExercisesByIDs(arg1:Array<string>):Promise<Array<main.Exercis
 
 export function GetImgPrefix():Promise<string>;
 
+export function GetLastWorkout(arg1:string):Promise<main.Progress>;
+
 export function GetPlan(arg1:string):Promise<main.Plan>;
 
 export function SaveConfig(arg1:main.Config):Promise<void>;
