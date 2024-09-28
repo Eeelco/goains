@@ -2,8 +2,6 @@ package main
 
 import (
 	"context"
-	"encoding/json"
-	"os"
 	"time"
 
 	"github.com/wailsapp/wails/v2/pkg/runtime"
@@ -11,7 +9,10 @@ import (
 
 // App struct
 type App struct {
-	ctx context.Context
+	ctx        context.Context
+	config     Config
+	db         ExerciseDatabase
+	start_time time.Time
 }
 
 // NewApp creates a new App application struct
@@ -24,64 +25,29 @@ func NewApp() *App {
 func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
 
-	initializeConfigVariables()
-	if !FolderExists(CONFIG_DIR) {
-		createConfigFolder()
-	}
-	LoadConfigAndDB()
+	a.config.Initialize()
+	a.db.Initialize()
 
 }
 
 func (a *App) GetAllPlans() []Plan {
-	files, _ := os.ReadDir(CONFIG_DIR + "/plans")
-	plans := []Plan{}
-	for _, file := range files {
-		if file.IsDir() {
-			continue
-		}
-		f, _ := os.Open(CONFIG_DIR + "/plans/" + file.Name())
-		plan := Plan{}
-		json.NewDecoder(f).Decode(&plan)
-		plans = append(plans, plan)
-	}
-	return plans
+	return a.config.GetAllPlans()
 }
 
 func (a *App) SaveConfig(c Config) {
-	config = c
-	f, _ := os.Create(CONFIG_FILE)
-	defer f.Close()
-	cfg_json, _ := json.MarshalIndent(c, "", "  ")
-	f.Write(cfg_json)
+	a.config.SaveConfig(c)
 }
 
 func (a *App) GetPlan(name string) Plan {
-	f, _ := os.Open(CONFIG_DIR + "/plans/" + name + ".json")
-	defer f.Close()
-	plan := Plan{}
-	json.NewDecoder(f).Decode(&plan)
-	return plan
-}
-
-func (a *App) GetExerciseById(id string) Exercise {
-	for _, ex := range exerciseDatabase {
-		if ex.Id == id {
-			return ex
-		}
-	}
-	return Exercise{}
+	return a.config.GetPlan(name)
 }
 
 func (a *App) GetExercisesByIDs(ids []string) []Exercise {
-	exercises := []Exercise{}
-	for _, id := range ids {
-		exercises = append(exercises, a.GetExerciseById(id))
-	}
-	return exercises
+	return a.db.GetExercisesByIDs(ids)
 }
 
 func (a *App) StartWorkout() {
-	start_time = time.Now()
+	a.start_time = time.Now()
 }
 
 func (a *App) WorkoutExitDialog() bool {
@@ -100,7 +66,34 @@ func (a *App) WorkoutSaveDialog(data PlanDay) bool {
 		Message: "Do you want to exit and save the workout?",
 	})
 	if result == "Yes" || result == "Ok" {
-		saveWorkout(data)
+		a.config.saveWorkout(data, a.start_time)
 	}
 	return result == "Yes" || result == "Ok"
+}
+
+func (a *App) GetLastWorkout(day string) Progress {
+	return a.config.GetLastWorkout(day)
+}
+
+// GetExercises returns a list of exercises based on the given filter.
+// If the filter is empty, it returns a subset of exerciseDatabase.
+// The returned list is limited to MAX_NR_EXERCISES.
+func (a *App) GetExercises(filter string) []Exercise {
+	return a.db.GetExercises(filter)
+}
+
+// SavePlan saves the given plan to a JSON file.
+// It returns true if the plan is successfully saved, false otherwise.
+func (a *App) SavePlan(plan Plan) bool {
+	return a.config.SavePlan(plan)
+}
+
+// GetConfig returns the current configuration.
+func (a *App) GetConfig() Config {
+	return a.config
+}
+
+// GetImgPrefix returns the image prefix used in the application.
+func (a *App) GetImgPrefix() string {
+	return a.config.ConfigDir + "/img/"
 }

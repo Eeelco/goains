@@ -44,29 +44,9 @@ type Plan struct {
 	Days        []PlanDay // Days in the plan
 }
 
-// Config represents the configuration settings for the application.
-type Config struct {
-	CurrentPlan   string // Identifier of the current plan
-	NextDayIdx    int    // Index of the next day in the plan
-	DefaultNrSets int    // Default number of sets for an exercise
-	DefaultNrReps int    // Default number of repetitions for an exercise
-	DefaultRest   int    // Default rest time in seconds between exercises
-}
-
 // Progress represents the progress of a workout plan.
 type Progress struct {
 	Start    string  // Start time of the workout
 	Duration float64 // Duration of the workout in seconds
 	Data     PlanDay // Data of the workout
-}
-
-// DefaultCfg returns a Config instance with default values.
-func DefaultCfg() Config {
-	return Config{
-		CurrentPlan:   "",
-		NextDayIdx:    0,
-		DefaultNrSets: 3,
-		DefaultNrReps: 10,
-		DefaultRest:   60,
-	}
 }

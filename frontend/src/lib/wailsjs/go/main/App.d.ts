@@ -6,8 +6,6 @@ export function GetAllPlans():Promise<Array<main.Plan>>;
 
 export function GetConfig():Promise<main.Config>;
 
-export function GetExerciseById(arg1:string):Promise<main.Exercise>;
-
 export function GetExercises(arg1:string):Promise<Array<main.Exercise>>;
 
 export function GetExercisesByIDs(arg1:Array<string>):Promise<Array<main.Exercise>>;
