@@ -1,7 +1,7 @@
 <script>
   import { goto } from "$app/navigation";
   import { onMount } from "svelte";
-  import { GetConfig, GetPlan, StartWorkout } from "$lib/wailsjs/go/main/App";
+  import { GetConfig, GetPlan, StartWorkout } from "$lib/wailsjs/go/backend/App";
   import Icon from "$lib/components/Icon.svelte";
   import { config, current_day_idx, plan } from "./stores.js";
 

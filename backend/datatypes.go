@@ -1,4 +1,4 @@
-package main
+package backend
 
 // This file contains the definition of various datatypes used in the application.
 

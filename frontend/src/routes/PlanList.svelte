@@ -1,6 +1,6 @@
 <script>
   import { onMount } from "svelte";
-  import { GetAllPlans, SaveConfig } from "$lib/wailsjs/go/main/App";
+  import { GetAllPlans, SaveConfig } from "$lib/wailsjs/go/backend/App";
   import { config } from "./stores.js";
 
   let config_value;

@@ -1,4 +1,4 @@
-package main
+package backend
 
 // APP_NAME is the name of the application.
 const APP_NAME = "goains"

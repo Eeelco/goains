@@ -1,5 +1,5 @@
 <script>
-  import { SaveConfig } from "$lib/wailsjs/go/main/App";
+  import { SaveConfig } from "$lib/wailsjs/go/backend/App";
   import { config } from "./stores.js";
 
   let config_value;

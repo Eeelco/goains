@@ -3,7 +3,7 @@
     GetExercises,
     GetImgPrefix,
     GetConfig,
-  } from "../../lib/wailsjs/go/main/App";
+  } from "$lib/wailsjs/go/backend/App";
   import { onMount } from "svelte";
   export let modalOpen = false;
   let search_string = "";

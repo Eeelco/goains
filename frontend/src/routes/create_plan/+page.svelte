@@ -1,7 +1,7 @@
 <script>
   import { goto } from "$app/navigation";
   import ExercisesList from "./ExercisesList.svelte";
-  import { GetExercises, SavePlan } from "../../lib/wailsjs/go/main/App";
+  import { SavePlan } from "$lib/wailsjs/go/backend/App";
   let plan_name = "";
   let plan_description = "";
   let filter_name = "";

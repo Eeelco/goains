@@ -8,9 +8,9 @@
     WorkoutExitDialog,
     WorkoutSaveDialog,
     GetLastWorkout,
-  } from "$lib/wailsjs/go/main/App";
-  import ExerciseCard from "../../lib/components/ExerciseCard.svelte";
-  import TimeModal from "../../lib/components/TimeModal.svelte";
+  } from "$lib/wailsjs/go/backend/App";
+  import ExerciseCard from "$lib/components/ExerciseCard.svelte";
+  import TimeModal from "$lib/components/TimeModal.svelte";
 
   let current_day;
   let current_exercise_idx = 0;

@@ -27,15 +27,12 @@ and amd64 architecture.
 - Create a workout plan, save it as a json file
 - Included example workout
 - Start a workout of the current plan
+- Save progress after workout
 
 ## Feature roadmap
 
 - Better Readme (Screenshots, ...)
 - Notification sound when rest ends
-- During workout (**Core functionality**):
-
-  - Save progress afterwards
-
 - Show more information about exercises (Description, images...)
 - Track workout progress
 - Ability to add own exercises to database
