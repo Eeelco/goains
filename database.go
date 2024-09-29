@@ -6,6 +6,10 @@ import (
 	"strings"
 )
 
+// This file contains the definition of the ExerciseDatabase struct and its methods.
+// The ExerciseDatabase struct is used to store and retrieve exercises.
+// It is currently just an embedded JSON file, but seems to work well enough.
+
 type ExerciseDatabase struct {
 	Exercises []Exercise
 }
@@ -13,12 +17,15 @@ type ExerciseDatabase struct {
 //go:embed exercises.json
 var db_file embed.FS
 
+// Initialize loads the exercises from the embedded JSON file.
 func (e *ExerciseDatabase) Initialize() {
 	data, _ := db_file.ReadFile("exercises.json")
 
 	json.Unmarshal(data, &e.Exercises)
 }
 
+// getExerciseById returns the exercise with the given ID.
+// If no exercise is found, it returns an empty Exercise struct.
 func (e ExerciseDatabase) getExerciseById(id string) Exercise {
 	for _, ex := range e.Exercises {
 		if ex.Id == id {
@@ -28,6 +35,7 @@ func (e ExerciseDatabase) getExerciseById(id string) Exercise {
 	return Exercise{}
 }
 
+// GetExercisesByIDs returns a list of exercises based on the given IDs.
 func (e ExerciseDatabase) GetExercisesByIDs(ids []string) []Exercise {
 	exercises := []Exercise{}
 	for _, id := range ids {

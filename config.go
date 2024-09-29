@@ -9,6 +9,9 @@ import (
 	"time"
 )
 
+// This file contains functions related to handling app configuration.
+// This includes loading and saving configuration settings, plans, and last workouts.
+
 // Config represents the configuration settings for the application.
 type Config struct {
 	CurrentPlan   string // Identifier of the current plan
@@ -16,9 +19,9 @@ type Config struct {
 	DefaultNrSets int    // Default number of sets for an exercise
 	DefaultNrReps int    // Default number of repetitions for an exercise
 	DefaultRest   int    // Default rest time in seconds between exercises
-	UserHomeDir   string
-	ConfigDir     string
-	ConfigFile    string
+	UserHomeDir   string // User's home directory
+	ConfigDir     string // Configuration directory
+	ConfigFile    string // Configuration file
 }
 
 // DefaultCfg returns a Config instance with default values.
@@ -29,9 +32,13 @@ func DefaultCfg() Config {
 		DefaultNrSets: 3,
 		DefaultNrReps: 10,
 		DefaultRest:   60,
+		UserHomeDir:   "",
+		ConfigDir:     "",
+		ConfigFile:    "",
 	}
 }
 
+// Initialize sets up the configuration directories and loads previously saved configurations
 func (c *Config) Initialize() {
 	c.UserHomeDir, _ = os.UserHomeDir()
 	c.ConfigDir = filepath.Join(c.UserHomeDir, ".config", APP_NAME)
@@ -59,6 +66,7 @@ func (c *Config) createConfigFolder() {
 	c.saveDefaultPlans()
 }
 
+// loadFile loads previously set config values from a file
 func (c *Config) loadFile() {
 	f, _ := os.Open(c.ConfigFile)
 	defer f.Close()
@@ -67,18 +75,19 @@ func (c *Config) loadFile() {
 
 }
 
-// This file contains functions related to handling configuration and data files.
-
 // FolderExists checks if the given folder exists.
 func FolderExists(folder string) bool {
 	_, err := os.Stat(folder)
 	return !os.IsNotExist(err)
 }
 
+// Embedded directory containing some pre-defined workout plans
+//
 //go:embed default_plans
 var default_plan_folder embed.FS
 
-func (c *Config) saveDefaultPlans() {
+// saveDefaultPlans saves the embedded workout plans to the config directory
+func (c Config) saveDefaultPlans() {
 	plan_dir := c.ConfigDir + "/plans"
 
 	plan_files, _ := default_plan_folder.ReadDir("default_plans")
@@ -94,7 +103,8 @@ func (c *Config) saveDefaultPlans() {
 	}
 }
 
-func (c *Config) saveWorkout(data PlanDay, start_time time.Time) {
+// saveWorkout saves the repetitions and weights from the given workout to a JSON file
+func (c Config) saveWorkout(data PlanDay, start_time time.Time) {
 	end := time.Now()
 	duration := end.Sub(start_time)
 	filename := c.ConfigDir + "/last_workouts/" + c.CurrentPlan + "_" + data.Name + ".json"
@@ -118,10 +128,10 @@ func (c *Config) saveWorkout(data PlanDay, start_time time.Time) {
 		return
 	}
 	f.Write(json_data)
-	f.Write(([]byte)(",\n"))
 }
 
-func (c *Config) GetAllPlans() []Plan {
+// GetAllPlans returns all workout plans stored in the config folder
+func (c Config) GetAllPlans() []Plan {
 	files, _ := os.ReadDir(c.ConfigDir + "/plans")
 	plans := []Plan{}
 	for _, file := range files {
@@ -136,6 +146,7 @@ func (c *Config) GetAllPlans() []Plan {
 	return plans
 }
 
+// SaveConfig overwrites the value of c and saves the new config to disk
 func (c *Config) SaveConfig(new_c Config) {
 	*c = new_c
 	f, _ := os.Create(c.ConfigDir)
@@ -144,15 +155,20 @@ func (c *Config) SaveConfig(new_c Config) {
 	f.Write(cfg_json)
 }
 
-func (c *Config) GetPlan(name string) Plan {
-	f, _ := os.Open(c.ConfigDir + "/plans/" + name + ".json")
-	defer f.Close()
+// GetPlan returns the workout plan with the given name
+func (c Config) GetPlan(name string) Plan {
 	plan := Plan{}
+	f, err := os.Open(c.ConfigDir + "/plans/" + name + ".json")
+	if err != nil {
+		return plan
+	}
+	defer f.Close()
 	json.NewDecoder(f).Decode(&plan)
 	return plan
 }
 
-func (c *Config) GetLastWorkout(day string) Progress {
+// GetLastWorkout returns the last workout progress for the given day
+func (c Config) GetLastWorkout(day string) Progress {
 	filename := c.ConfigDir + "/last_workouts/" + c.CurrentPlan + "_" + day + ".json"
 	if _, err := os.Stat(filename); os.IsNotExist(err) {
 		return Progress{}
@@ -171,9 +187,9 @@ func (c *Config) GetLastWorkout(day string) Progress {
 
 // SavePlan saves the given plan to a JSON file.
 // It returns true if the plan is successfully saved, false otherwise.
-func (c *Config) SavePlan(plan Plan) bool {
+func (c Config) SavePlan(plan Plan) bool {
 	_, err := os.Stat(plan.Name)
-	if os.IsNotExist(err) {
+	if !os.IsNotExist(err) {
 		return false
 	}
 
