@@ -1,5 +1,6 @@
 # Goains
 
+
 ## About
 
 A simple workout app built using Wails. Intended to be used on Linux mobile.
@@ -29,9 +30,15 @@ and amd64 architecture.
 - Start a workout of the current plan
 - Save progress after workout
 
+## Snapshots
+
+![start](https://github.com/user-attachments/assets/bfb7a7db-e971-46ca-af2d-68266e0ea4f4)
+![workout](https://github.com/user-attachments/assets/073aa7ae-f28c-471d-b9a8-c754bf4bee03)
+![creator](https://github.com/user-attachments/assets/63856f07-53a8-417b-b0cb-ca43eb065d12)
+
 ## Feature roadmap
 
-- Better Readme (Screenshots, ...)
+- Better Readme
 - Notification sound when rest ends
 - Show more information about exercises (Description, images...)
 - Track workout progress
