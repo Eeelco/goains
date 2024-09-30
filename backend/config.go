@@ -24,18 +24,12 @@ type Config struct {
 	ConfigFile    string // Configuration file
 }
 
-// DefaultCfg returns a Config instance with default values.
-func DefaultCfg() Config {
-	return Config{
-		CurrentPlan:   "",
-		NextDayIdx:    0,
-		DefaultNrSets: 3,
-		DefaultNrReps: 10,
-		DefaultRest:   60,
-		UserHomeDir:   "",
-		ConfigDir:     "",
-		ConfigFile:    "",
-	}
+func (c *Config) SetDefaults() {
+	c.CurrentPlan = ""
+	c.NextDayIdx = 0
+	c.DefaultNrSets = 3
+	c.DefaultNrReps = 10
+	c.DefaultRest = 60
 }
 
 // Initialize sets up the configuration directories and loads previously saved configurations
@@ -56,7 +50,7 @@ func (c *Config) createConfigFolder() {
 	os.Mkdir(c.ConfigDir+"/plans", 0755)
 	os.Mkdir(c.ConfigDir+"/last_workouts", 0755)
 
-	*c = DefaultCfg()
+	c.SetDefaults()
 
 	f, _ := os.Create(c.ConfigFile)
 	defer f.Close()
