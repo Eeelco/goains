@@ -13,10 +13,11 @@ import (
 
 // App struct
 type App struct {
-	ctx        context.Context  // The context is used to call the runtime methods
-	config     Config           // Config
-	db         ExerciseDatabase // Database
-	start_time time.Time        // Start time of the workout
+	ctx                context.Context  // The context is used to call the runtime methods
+	config             Config           // Config
+	db                 ExerciseDatabase // Database
+	notification_sound SoundPlayer      // SoundPlayer
+	start_time         time.Time        // Start time of the workout
 }
 
 // NewApp creates a new App application struct
@@ -31,7 +32,11 @@ func (a *App) Startup(ctx context.Context) {
 
 	a.config.Initialize()
 	a.db.Initialize()
+	a.notification_sound.Initialize(a.config.ConfigDir + "/static/notification.wav")
+}
 
+func (a *App) ShutDown(ctx context.Context) {
+	a.notification_sound.ShutDown()
 }
 
 // GetAllPlans returns a list of all plans stored in the corresponding directory.
@@ -110,4 +115,8 @@ func (a *App) GetConfig() Config {
 // GetImgPrefix returns the image prefix used in the application.
 func (a *App) GetImgPrefix() string {
 	return a.config.ConfigDir + "/img/"
+}
+
+func (a *App) PlayNotificationSound() {
+	a.notification_sound.Play()
 }

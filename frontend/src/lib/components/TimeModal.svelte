@@ -34,7 +34,7 @@
 <div class="time-modal" id="time-dialog">
   <article data-theme="light">
     <header>
-      <button on:click={() => rest_timer.set(0)}> Stop timer </button>
+      <button on:click={() => {is_break = false; rest_timer.set(0)}}> Stop timer </button>
     </header>
     <p style="color: black;">Rest: {convertToMinutesSeconds(remaining_time)}</p>
     <progress value={remaining_time} max={max_time} />

@@ -14,6 +14,15 @@ COPY . .
 # Docker injects the value of BUILDARCH into the build process
 ARG BUILDARCH
 
+RUN dpkg --add-architecture amd64 \
+  && apt-get -qq update \
+  && apt-get -qq install -y libasound2-dev:amd64
+
+RUN dpkg --add-architecture arm64 \
+  && apt-get -qq update \
+  && apt-get -qq install -y libasound2-dev:arm64
+
+
 # Needed atm due to https://github.com/wailsapp/wails/issues/1921
 RUN set -exo pipefail; \
   if [ "${BUILDARCH}" = "amd64" ]; then \

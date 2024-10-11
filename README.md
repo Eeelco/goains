@@ -18,8 +18,12 @@ Attached to each tagged release is a zip file containing compiled binaries for b
 and amd64 architecture.
 
 ### Building from source
-
+- Install Go, Nodejs, npm
+- Install the Alsa development packages
+    - On Opensuse: ``alsa-devel``
+    - On Debian/Ubuntu: ``libasound2-dev``
 - Install and setup [Wails](https://wails.io)
+- ``cd`` into the repository and run ``npm install``
 - Run `wails build`
 - To cross-compile for aarch64, run `make cross` (requires Docker)
 
@@ -36,10 +40,19 @@ and amd64 architecture.
 ![workout](https://github.com/user-attachments/assets/073aa7ae-f28c-471d-b9a8-c754bf4bee03)
 ![creator](https://github.com/user-attachments/assets/63856f07-53a8-417b-b0cb-ca43eb065d12)
 
+
+## Configuration
+
+Configuration data is stored in the ``~/.config/goains`` directory. This includes:
+
+- ``config.json``: Basic data such as the current workout plan
+- ``last_workouts/``: Weights and repetitions of the last saved workout of each plan day
+- ``plans/``: Contains json files storing all saved workout plans
+- ``static``: Contains a notification sound that is plays when rest ends
+
 ## Feature roadmap
 
 - Better Readme
-- Notification sound when rest ends
 - Show more information about exercises (Description, images...)
 - Track workout progress
 - Ability to add own exercises to database
