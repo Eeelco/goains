@@ -8,6 +8,7 @@
     WorkoutExitDialog,
     WorkoutSaveDialog,
     GetLastWorkout,
+    PlayNotificationSound,
   } from "$lib/wailsjs/go/backend/App";
   import ExerciseCard from "$lib/components/ExerciseCard.svelte";
   import TimeModal from "$lib/components/TimeModal.svelte";
@@ -43,6 +44,9 @@
   // If it is set to 0, it means the break is over
   rest_timer.subscribe((rt) => {
     if (rt <= 0) {
+      if (is_break) {
+        PlayNotificationSound();
+      }
       is_break = false;
       return;
     }

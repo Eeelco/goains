@@ -49,6 +49,7 @@ func (c *Config) createConfigFolder() {
 	os.Mkdir(c.ConfigDir, 0755)
 	os.Mkdir(c.ConfigDir+"/plans", 0755)
 	os.Mkdir(c.ConfigDir+"/last_workouts", 0755)
+	os.Mkdir(c.ConfigDir+"/static", 0755)
 
 	c.SetDefaults()
 
@@ -57,7 +58,7 @@ func (c *Config) createConfigFolder() {
 	cfg_json, _ := json.MarshalIndent(c, "", "  ")
 	f.Write(cfg_json)
 
-	c.saveDefaultPlans()
+	c.saveDefaults()
 }
 
 // loadFile loads previously set config values from a file
@@ -80,8 +81,13 @@ func FolderExists(folder string) bool {
 //go:embed default_plans
 var default_plan_folder embed.FS
 
-// saveDefaultPlans saves the embedded workout plans to the config directory
-func (c Config) saveDefaultPlans() {
+// Embedded directory containing static files
+//
+//go:embed static
+var static_folder embed.FS
+
+// saveDefaults saves the embedded default files to the config directory
+func (c Config) saveDefaults() {
 	plan_dir := c.ConfigDir + "/plans"
 
 	plan_files, _ := default_plan_folder.ReadDir("default_plans")
@@ -91,6 +97,19 @@ func (c Config) saveDefaultPlans() {
 			log.Fatal(err)
 		}
 		err = os.WriteFile(plan_dir+"/"+plan.Name(), filebytes, 0644)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+
+	static_dir := c.ConfigDir + "/static"
+	static_files, _ := static_folder.ReadDir("static")
+	for _, file := range static_files {
+		filebytes, err := static_folder.ReadFile("static/" + file.Name())
+		if err != nil {
+			log.Fatal(err)
+		}
+		err = os.WriteFile(static_dir+"/"+file.Name(), filebytes, 0644)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -143,7 +162,7 @@ func (c Config) GetAllPlans() []Plan {
 // SaveConfig overwrites the value of c and saves the new config to disk
 func (c *Config) SaveConfig(new_c Config) {
 	*c = new_c
-	f, _ := os.Create(c.ConfigDir)
+	f, _ := os.Create(c.ConfigFile)
 	defer f.Close()
 	cfg_json, _ := json.MarshalIndent(c, "", "  ")
 	f.Write(cfg_json)

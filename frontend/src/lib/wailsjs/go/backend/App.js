@@ -30,6 +30,10 @@ export function GetPlan(arg1) {
   return window['go']['backend']['App']['GetPlan'](arg1);
 }
 
+export function PlayNotificationSound() {
+  return window['go']['backend']['App']['PlayNotificationSound']();
+}
+
 export function SaveConfig(arg1) {
   return window['go']['backend']['App']['SaveConfig'](arg1);
 }

@@ -16,6 +16,8 @@ export function GetLastWorkout(arg1:string):Promise<backend.Progress>;
 
 export function GetPlan(arg1:string):Promise<backend.Plan>;
 
+export function PlayNotificationSound():Promise<void>;
+
 export function SaveConfig(arg1:backend.Config):Promise<void>;
 
 export function SavePlan(arg1:backend.Plan):Promise<boolean>;
