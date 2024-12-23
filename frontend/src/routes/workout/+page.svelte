@@ -11,12 +11,15 @@
     PlayNotificationSound,
   } from "$lib/wailsjs/go/backend/App";
   import ExerciseCard from "$lib/components/ExerciseCard.svelte";
+  import ExerciseModal from "$lib/components/ExerciseModal.svelte";
   import TimeModal from "$lib/components/TimeModal.svelte";
 
   let current_day;
   let current_exercise_idx = 0;
   let exercises = [];
   let is_break = false;
+  let modal_open = false;
+  let modal_data = null;
 
   plan.subscribe((p) => {
     current_day = p.Days[get(current_day_idx)];
@@ -98,6 +101,8 @@
   });
 </script>
 
+<ExerciseModal bind:modal_data bind:modal_open />
+
 <div class="exercise-page">
   <div role="group">
     <h2>{current_day.Name} <br /> {elapsed_string}</h2>
@@ -118,6 +123,10 @@
           <img
             src={`assets/img/${exercises[current_exercise_idx].Images[0]}`}
             alt={exercises[current_exercise_idx].Name}
+            on:click={() => {
+              modal_data = exercises[current_exercise_idx];
+              modal_open = true;
+            }}
           />
 
           <div role="group">
