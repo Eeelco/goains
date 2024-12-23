@@ -10,7 +10,7 @@
         src: imgpath,
       };
     });
-}
+  }
   let carousel;
 </script>
 
@@ -22,7 +22,7 @@
           aria-label="Close"
           rel="prev"
           on:click={() => {
-            modal_data = {Images: []}
+            modal_data = { Images: [] };
             modal_open = false;
           }}
         ></button>
@@ -30,23 +30,39 @@
           <strong>{modal_data.Name}</strong>
         </p>
       </header>
-      <Carousel bind:this={carousel} arrows={false} dots={false} autoplay={true}>
+      <Carousel
+        bind:this={carousel}
+        arrows={false}
+        dots={false}
+        autoplay={true}
+      >
         {#each images as image}
           <div class="center">
             <img src={`assets/img/${image.src}`} alt={image.alt} />
           </div>
         {/each}
       </Carousel>
-      <p style="text-align: justify;">{modal_data.Instructions.join('\n\n')}</p>
+      <div class="text-block">
+        <h3>Instructions</h3>
+        {modal_data.Instructions.join("\n\n")}
+      </div>
     </article>
   {/if}
 </dialog>
 
 <style>
-    .center {
-      text-align: center;
-      display: flex;
-      flex-flow: column;
-      justify-content: center;
-    }
-  </style>
+  .center {
+    text-align: center;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+  }
+
+  .text-block {
+    line-height: 1.6;
+    font-size: 18px;
+  }
+  .text-block h3 {
+    line-height: 1.2;
+  }
+</style>
