@@ -19,7 +19,7 @@
   let exercises = [];
   let is_break = false;
   let modal_open = false;
-  let modal_data = null;
+  let modal_data = {Images: []};
 
   plan.subscribe((p) => {
     current_day = p.Days[get(current_day_idx)];
